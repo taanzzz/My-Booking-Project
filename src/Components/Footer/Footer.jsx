@@ -21,7 +21,7 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-[#e0f7fa] via-[#b2ebf2] to-[#80deea] dark:from-[#0d1b2a] dark:via-[#1b263b] dark:to-[#415a77] backdrop-blur-md bg-opacity-80 dark:bg-opacity-90 text-gray-900 dark:text-gray-200 px-6 md:px-20 pt-12 pb-8 transition-all duration-300 rounded-t-3xl shadow-xl">
+    <footer className="bg-gradient-to-br from-[#e0f7fa] via-[#b2ebf2] to-[#80deea] dark:from-[#0d1b2a] dark:via-[#1b263b] dark:to-[#415a77] backdrop-blur-md bg-opacity-80 dark:bg-opacity-90 text-gray-900 dark:text-gray-200 px-6 md:px-20 pt-12 pb-8 transition-all duration-300  shadow-xl">
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
         
