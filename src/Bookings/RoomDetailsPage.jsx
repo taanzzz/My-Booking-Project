@@ -32,19 +32,20 @@ const RoomDetailsPage = () => {
     if (!user?.email) return toast.error("Please log in to book a room");
 
     axiosSecure
-      .post("/bookings", {
-        roomId: room._id,
-        date: format(bookingDate, "yyyy-MM-dd"),
-        email: user.email,
-        roomName: room.name,
-        image: room.image,
-      })
-      .then(() => {
-        toast.success("Room booked successfully");
-        setIsBooked(true);
-        setShowModal(false);
-      })
-      .catch(() => toast.error("Booking failed"));
+  .post("/bookings", {
+    roomId: room._id,
+    date: format(bookingDate, "yyyy-MM-dd"),
+    email: user.email,
+    roomName: room.name,
+    image: room.image,
+  })
+  .then(async () => {
+    await axiosSecure.patch(`/rooms/${room._id}`, { isAvailable: false }); // Mark as unavailable
+    toast.success("Room booked successfully");
+    setIsBooked(true);
+    setShowModal(false);
+  })
+    .catch(() => toast.error("Booking failed"));
   };
 
   if (!room) return <div className="text-center py-10">Loading...</div>;

@@ -78,11 +78,13 @@ const MyBookings = () => {
   };
 
   const isCancelable = (date) => {
-    const bookingDate = new Date(date);
-    const today = new Date();
-    const diff = (bookingDate - today) / (1000 * 3600 * 24);
-    return diff >= 1;
-  };
+  const bookingDate = new Date(date);
+  const today = new Date();
+  today.setHours(23, 59, 59, 999);
+  const diff = (bookingDate - today) / (1000 * 3600 * 24);
+  return diff >= 1;
+};
+
 
   return (
     <div

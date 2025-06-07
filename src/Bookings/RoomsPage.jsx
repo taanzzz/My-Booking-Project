@@ -12,17 +12,44 @@ const badgeColors = {
 
 const RoomsPage = () => {
   const [rooms, setRooms] = useState([]);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   useEffect(() => {
-    axiosSecure.get("/rooms").then((res) => setRooms(res.data));
-  }, []);
+  if (minPrice !== '' && maxPrice !== '') {
+    axiosSecure
+      .get(`/rooms?minPrice=${minPrice}&maxPrice=${maxPrice}`)
+      .then((res) => setRooms(res.data));
+  } else {
+    axiosSecure.get('/rooms').then((res) => setRooms(res.data));
+  }
+}, [minPrice, maxPrice]);
+
 
   return (
-    <div className="p-6  bg-gradient-to-br from-[#f4f8ff] via-[#e7f0fb] to-[#f9fbff] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a]">
+    <div className="p-6 bg-gradient-to-br from-[#f4f8ff] via-[#e7f0fb] to-[#f9fbff] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a]">
 
-      <h1 className="text-4xl font-extrabold mb-10 text-gray-900 text-center">
+      <h1 className="text-4xl font-extrabold mb-6 text-gray-900 text-center">
         Available Rooms
       </h1>
+
+     
+      <div className="flex flex-wrap gap-4 justify-center mb-10">
+  <input
+    type="number"
+    placeholder="Enter lowest you'd consider!(min price)"
+    value={minPrice}
+    onChange={(e) => setMinPrice(e.target.value)}
+    className="w-82 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 shadow-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+  />
+  <input
+    type="number"
+    placeholder="Enter Highest you’d go?(max price)"
+    value={maxPrice}
+    onChange={(e) => setMaxPrice(e.target.value)}
+    className="w-82 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 shadow-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+  />
+</div>
 
       <div className="grid gap-8 md:grid-cols-3">
         {rooms.map((room) => (
@@ -32,7 +59,6 @@ const RoomsPage = () => {
             transition={{ type: "spring", stiffness: 300 }}
             className="bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col overflow-hidden"
           >
-            
             <div className="h-48 w-full overflow-hidden rounded-t-xl">
               <img
                 src={room.image}
@@ -41,40 +67,30 @@ const RoomsPage = () => {
               />
             </div>
 
-            
             <div className="p-6 flex flex-col flex-grow">
               <h2 className="text-2xl font-semibold mb-4 text-gray-900">{room.name}</h2>
 
               <div className="flex flex-wrap gap-3 mb-6">
-                <span
-                  className={`px-3 py-1 rounded-full font-semibold text-sm ${badgeColors.price}`}
-                >
+                <span className={`px-3 py-1 rounded-full font-semibold text-sm ${badgeColors.price}`}>
                   Price: ${room.price}
                 </span>
-
-                <span
-                  className={`px-3 py-1 rounded-full font-semibold text-sm ${badgeColors.location}`}
-                >
+                <span className={`px-3 py-1 rounded-full font-semibold text-sm ${badgeColors.location}`}>
                   Location: {room.location}
                 </span>
-
-                <span
-                  className={`px-3 py-1 rounded-full font-semibold text-sm ${badgeColors.guests}`}
-                >
+                <span className={`px-3 py-1 rounded-full font-semibold text-sm ${badgeColors.guests}`}>
                   Max Guests: {room.maxGuests}
                 </span>
               </div>
 
               <Link
-              to={`/rooms/${room._id}`}
-             className="mt-auto inline-flex items-center justify-center gap-2 
-             bg-gradient-to-r from-indigo-500 to-purple-600 
-             hover:from-purple-600 hover:to-indigo-500 
-             text-white font-semibold rounded-lg px-5 py-3 transition duration-300"
->
-             View Details <FaArrowRight />
-            </Link>
-
+                to={`/rooms/${room._id}`}
+                className="mt-auto inline-flex items-center justify-center gap-2 
+                  bg-gradient-to-r from-indigo-500 to-purple-600 
+                  hover:from-purple-600 hover:to-indigo-500 
+                  text-white font-semibold rounded-lg px-5 py-3 transition duration-300"
+              >
+                View Details <FaArrowRight />
+              </Link>
             </div>
           </motion.div>
         ))}
