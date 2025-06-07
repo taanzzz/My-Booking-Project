@@ -8,7 +8,7 @@ import { AuthContext } from "../Components/AuthContext/AuthContext";
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaUserFriends } from "react-icons/fa";
-import { useParams } from "react-router";
+import {  Link, useParams } from "react-router";
 
 const RoomDetailsPage = () => {
   const { id } = useParams();
@@ -50,7 +50,8 @@ const RoomDetailsPage = () => {
   if (!room) return <div className="text-center py-10">Loading...</div>;
 
   return (
-  <div className="min-h-screen bg-gradient-to-tr from-lime-100 via-emerald-200 to-teal-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-10">
+  <div className="min-h-screen bg-gradient-to-tr from-[#f0f9ff] via-[#e0f2fe] to-[#f8fbff] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] py-10">
+
     <div className="p-4 max-w-4xl mx-auto space-y-10">
       {/* Image Banner */}
       <div className="rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-emerald-100 to-green-200 dark:from-emerald-900 dark:to-green-800">
@@ -130,12 +131,13 @@ const RoomDetailsPage = () => {
               placeholderText="Select Booking Date"
             />
             <div className="flex justify-between mt-4">
-              <button
+              <Link
+              to={`/my-bookings`}
                 onClick={handleBooking}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
               >
                 Confirm
-              </button>
+              </Link>
               <button
                 onClick={() => setShowModal(false)}
                 className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
