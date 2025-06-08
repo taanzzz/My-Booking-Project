@@ -1,9 +1,10 @@
 import React from 'react'
+import HotelSlider from '../HomeComponents/HotelSlider'
 
 const Home = () => {
   return (
     <div>
-      ami home
+     <HotelSlider></HotelSlider>
     </div>
   )
 }

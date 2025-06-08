@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "title": "The Skyline Luxe",
+    "description": "An ultra-modern luxury skyscraper hotel with golden lighting and a premium entrance ambiance.",
+    "bgColor": "#1e2a3a",
+    "rating": 4.9,
+    "location": "New York, USA",
+    "image": "https://i.ibb.co/bgfYRSyC/20250608-051904.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Coastal Breeze Retreat",
+    "description": "A minimalist beachfront resort offering stunning sunset views and peaceful luxury.",
+    "bgColor": "#fbe4c2",
+    "rating": 4.7,
+    "location": "Malibu, California",
+    "image": "https://i.ibb.co/tw7m7FHh/20250608-052500.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Neo Tokyo Suites",
+    "description": "Futuristic boutique hotel with vibrant neon lights and high-tech design.",
+    "bgColor": "#1f1b2e",
+    "rating": 4.8,
+    "location": "Tokyo, Japan",
+    "image": "https://i.ibb.co/CKm6JbCw/20250608-052423.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Alpine Glow Chalet",
+    "description": "Modern mountain retreat with scenic views and a tranquil environment.",
+    "bgColor": "#d8cab5",
+    "rating": 4.6,
+    "location": "Zermatt,Switzerland",
+    "image": "https://i.ibb.co/5hf4wY3B/20250608-052308.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Tropical Nest Eco Resort",
+    "description": "A jungle-surrounded retreat blending modern design with nature's calm.",
+    "bgColor": "#2f4430",
+    "rating": 4.9,
+    "location": "Ubud, Bali",
+    "image": "https://i.ibb.co/vxVv4bM4/20250608-051314.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Skyline Lounge Inn",
+    "description": "An urban oasis with a rooftop pool and panoramic city views.",
+    "bgColor": "#14222f",
+    "rating": 4.8,
+    "location": "Dubai, UAE",
+    "image": "https://i.ibb.co/dsRJTPXW/20250608-052029.jpg"
+  },
+  {
+    "id": 7,
+    "title": "Desert Mirage Hotel",
+    "description": "Luxury hotel inspired by desert sands and elegant architecture.",
+    "bgColor": "#cfae82",
+    "rating": 4.5,
+    "location": "Doha, Qatar",
+    "image": "https://i.ibb.co/twpBMp3Y/20250608-052500.jpg"
+  },
+  {
+    "id": 8,
+    "title": "Nordic Light Lodge",
+    "description": "A serene winter escape with Nordic minimalism and glowing interiors.",
+    "bgColor": "#dee7f2",
+    "rating": 4.7,
+    "location": "Reykjavik, Iceland",
+    "image": "https://i.ibb.co/jPmTN2z0/20250608-051738.jpg"
+  },
+  {
+    "id": 9,
+    "title": "Rain & Shine Business Hotel",
+    "description": "Cinematic business hotel with rainy-night aesthetic and premium service.",
+    "bgColor": "#2a2a2a",
+    "rating": 4.6,
+    "location": "Seoul,South Korea",
+    "image": "https://i.ibb.co/8LpNgbYm/20250608-051548.jpg"
+  },
+  {
+    "id": 10,
+    "title": "The Regal Heritage",
+    "description": "A fusion of historical architecture with modern luxury.",
+    "bgColor": "#3a3b42",
+    "rating": 4.9,
+    "location": "Vienna, Austria",
+    "image": "https://i.ibb.co/Y70Y4LrS/20250608-051519.jpg"
+  },
+  {
+    "id": 11,
+    "title": "Lakeview Zen Retreat",
+    "description": "A lakeside paradise with reflective waters and a tranquil atmosphere.",
+    "bgColor": "#a4b0af",
+    "rating": 4.8,
+    "location": "Queenstown, New Zealand",
+    "image": "https://i.ibb.co/N6BKjn0r/20250608-051429.jpg"
+  },
+  {
+    "id": 12,
+    "title": "The Crown Boulevard",
+    "description": "Prestigious hotel with valet service and cinematic evening lighting.",
+    "bgColor": "#222831",
+    "rating": 5.0,
+    "location": "Paris, France",
+    "image": "https://i.ibb.co/DDVK4CcB/20250608-052757.jpg"
+  },
+  {
+    "id": 13,
+    "title": "Green Horizon Hotel",
+    "description": "An eco-conscious hotel combining sustainability with modern design.",
+    "bgColor": "#3a5a40",
+    "rating": 4.7,
+    "location": "Vancouver, Canada",
+    "image": "https://i.ibb.co/3mGy5XzD/20250608-051314.jpg"
+  },
+  {
+    "id": 14,
+    "title": "Golden Hour Heights",
+    "description": "Stylish high-rise hotel glowing with golden trim in the evening sky.",
+    "bgColor": "#1a2740",
+    "rating": 4.8,
+    "location": "Bangkok, Thailand",
+    "image": "https://i.ibb.co/v6mxgxkj/20250608-051158.jpg"
+  },
+  {
+    "id": 15,
+    "title": "The Fountain Grand",
+    "description": "Majestic hotel with a circular driveway and modern fountain.",
+    "bgColor": "#2e2e38",
+    "rating": 4.9,
+    "location": "Madrid, Spain",
+    "image": "https://i.ibb.co/99v6V1Z8/20250608-051014.jpg"
+  }
+]
