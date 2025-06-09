@@ -49,6 +49,7 @@ const MyBookings = () => {
         roomId: selectedBooking.roomId,
         username: user.displayName,
         userEmail: user.email,
+        userPhoto: user.photoURL,
         rating,
         comment,
       });

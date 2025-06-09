@@ -1,10 +1,12 @@
 import React from 'react'
 import HotelSlider from '../HomeComponents/HotelSlider'
+import ReviewSlider from '../HomeComponents/ReviewSlider'
 
 const Home = () => {
   return (
-    <div>
+    <div className=''>
      <HotelSlider></HotelSlider>
+     <ReviewSlider></ReviewSlider>
     </div>
   )
 }
