@@ -9,67 +9,68 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/pagination';
 import 'leaflet/dist/leaflet.css';
+import { Link } from 'react-router';
 
 
 const destinations = [
     {
         id: 1, city: 'Paris', country: 'France',
-        imageUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760c0337?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/TBj2NF3F/20250610-053909.jpg',
         coordinates: [48.8566, 2.3522], description: "The city of love, art, and fashion."
     },
     {
         id: 2, city: 'Zurich', country: 'Switzerland',
-        imageUrl: 'https://images.unsplash.com/photo-1531218751998-f8620835f245?q=80&w=1974&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/BVm2Wx3D/20250610-045559.jpg',
         coordinates: [47.3769, 8.5417], description: "A global center for banking and finance, set by a pristine lake."
     },
     {
         id: 3, city: 'Bali', country: 'Indonesia',
-        imageUrl: 'https://images.unsplash.com/photo-1573790387438-4da905039392?q=80&w=1925&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/23VGMT9F/20250610-045809.jpg',
         coordinates: [-8.6500, 115.2167], description: "The famed Island of the Gods, with lush volcanic mountains."
     },
     {
         id: 4, city: 'Doha', country: 'Qatar',
-        imageUrl: 'https://images.unsplash.com/photo-1576948141528-1f3c3592c423?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/cSc8RDjW/20250610-050442.jpg',
         coordinates: [25.2854, 51.5310], description: "A futuristic skyline and ultramodern architecture."
     },
     {
         id: 5, city: 'Reykjavík', country: 'Iceland',
-        imageUrl: 'https://images.unsplash.com/photo-1500051638674-ff996a0ec29e?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/xq1674HN/20250610-050239.jpg',
         coordinates: [64.1466, -21.9426], description: "The gateway to the land of fire, ice, and Northern Lights."
     },
     {
         id: 6, city: 'Seoul', country: 'South Korea',
-        imageUrl: 'https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1932&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/7N6JDVQC/20250610-050518.jpg',
         coordinates: [37.5665, 126.9780], description: "Where modern skyscrapers and pop culture meet ancient temples."
     },
     {
         id: 7, city: 'Vienna', country: 'Austria',
-        imageUrl: 'https://images.unsplash.com/photo-1583311850056-a793ba94019a?q=80&w=1965&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/BVdHVC63/20250610-050609.jpg',
         coordinates: [48.2082, 16.3738], description: "A city of imperial palaces, music, and artistic masterpieces."
     },
     {
         id: 8, city: 'Queenstown', country: 'New Zealand',
-        imageUrl: 'https://images.unsplash.com/photo-1579737039918-a61a6c459998?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/q3J0rQsc/20250610-050753.jpg',
         coordinates: [-45.0312, 168.6626], description: "The adventure capital of the world, nestled by majestic mountains."
     },
     {
         id: 9, city: 'Nice', country: 'France',
-        imageUrl: 'https://images.unsplash.com/photo-1542317852-5239a1abe8f3?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/1YR3ngzz/20250610-050816.jpg',
         coordinates: [43.7102, 7.2620], description: "Stunning seaside beauty on the French Riviera."
     },
     {
         id: 10, city: 'Vancouver', country: 'Canada',
-        imageUrl: 'https://images.unsplash.com/photo-1559511261-b793394c96a4?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/GvwfS57N/20250610-050926.jpg',
         coordinates: [49.2827, -123.1207], description: "A bustling seaport surrounded by mountains and evergreen forests."
     },
     {
         id: 11, city: 'Bangkok', country: 'Thailand',
-        imageUrl: 'https://images.unsplash.com/photo-1563492065599-3520f775ee05?q=80&w=1974&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/jv1kRTtw/20250610-051011.jpg',
         coordinates: [13.7563, 100.5018], description: "A city of ornate shrines and vibrant street life."
     },
     {
         id: 12, city: 'Barcelona', country: 'Spain',
-        imageUrl: 'https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=2070&auto=format&fit=crop',
+        imageUrl: 'https://i.ibb.co/1YdZ8mZH/20250610-051033.jpg',
         coordinates: [41.3851, 2.1734], description: "Famed for its unique architecture, art, and vibrant nightlife."
     }
 ];
@@ -179,10 +180,12 @@ const FeaturedDestinations = () => {
                                     <div className="text-center w-40">
                                         <h4 className="font-bold text-md">{dest.city}, {dest.country}</h4>
                                         <p className="text-sm">{dest.description}</p>
-                                        <button className="btn btn-primary btn-sm mt-2 inline-flex items-center gap-2">
+                                        <Link 
+                                        to={`/rooms`}
+                                        className="btn btn-primary btn-sm mt-2 inline-flex items-center gap-2">
                                             <FaBed />
                                             View Stays
-                                        </button>
+                                        </Link>
                                     </div>
                                 </Popup>
                             </Marker>

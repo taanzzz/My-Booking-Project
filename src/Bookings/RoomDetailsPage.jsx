@@ -59,7 +59,7 @@ const RoomDetailsPage = () => {
         <img
           src={room.image}
           alt={room.name}
-          className="w-full h-64 object-cover"
+          className="w-full h-120 "
         />
       </div>
 
