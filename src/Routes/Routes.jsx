@@ -10,11 +10,13 @@ import Register from "../Components/Register/Register";
 import UserProfile from "../Components/User/UserProfile";
 import PrivateRoute from "../Components/PrivateRoute/PrivateRoute";
 import { createBrowserRouter } from "react-router";
+import ErrorPage from "../Home/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
       { path: "rooms", element: <RoomsPage /> },
