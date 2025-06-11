@@ -85,6 +85,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    sessionStorage.removeItem('offerModalShown');
     await signOut(auth);
     setUser(null);
     localStorage.clear(); 

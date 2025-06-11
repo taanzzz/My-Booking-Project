@@ -137,9 +137,13 @@ const OfferModal = () => {
   const [randomOffers, setRandomOffers] = useState([]);
 
   useEffect(() => {
-    if (user) {
+    
+    if (user && !sessionStorage.getItem('offerModalShown')) {
       setRandomOffers(getRandomOffers());
       setShowModal(true);
+      
+      sessionStorage.setItem('offerModalShown', 'true');
+      
       setTimeout(() => {
         confetti({
           particleCount: 180,
@@ -148,7 +152,11 @@ const OfferModal = () => {
         });
       }, 600);
     }
-  }, [user]);
+  }, [user]); 
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   const typeEmojis = {
     Couples: "💑",
@@ -192,7 +200,7 @@ const OfferModal = () => {
             className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[90vh] relative"
           >
             <button
-              onClick={() => setShowModal(false)}
+              onClick={closeModal} 
               className="absolute top-2 right-2 sm:top-4 sm:right-4 text-gray-600 hover:text-red-500 transition text-xl sm:text-2xl font-bold z-50"
               aria-label="Close modal"
             >
