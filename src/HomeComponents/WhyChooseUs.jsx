@@ -1,9 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// Importing icons from react-icons
 import { FaGlobeAmericas, FaTags, FaShieldAlt, FaHeadset } from 'react-icons/fa';
 
-// Updated features array with more detailed descriptions
+
 const features = [
   {
     id: 1,
@@ -35,7 +34,7 @@ const WhyChooseUs = () => {
   return (
     <section className="bg-base-200 py-20 lg:py-28">
       <div className="container mx-auto px-4">
-        {/* === Section Title === */}
+        
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-3xl lg:text-5xl font-extrabold mb-4">Your Journey,Perfectly Planned</h2>
           <p className="text-lg text-base-content/80 max-w-3xl mx-auto">
@@ -43,10 +42,10 @@ const WhyChooseUs = () => {
           </p>
         </div>
 
-        {/* === Main Content Grid (Image + Features) === */}
+       
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* --- Image Column --- */}
+         
           <motion.div
             className="w-full h-80 lg:h-full rounded-2xl overflow-hidden shadow-2xl"
             initial={{ opacity: 0, x: -50 }}
@@ -61,7 +60,7 @@ const WhyChooseUs = () => {
             />
           </motion.div>
 
-          {/* --- Features Column --- */}
+          
           <motion.div 
             className="flex flex-col gap-y-8"
             initial="hidden"

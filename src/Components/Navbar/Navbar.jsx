@@ -99,8 +99,14 @@ const Navbar = () => {
   );
 
   return (
-    <>
-      <div className="navbar mt-1 fixed top-0 left-0 w-full bg-gradient-to-r from-[#f8fafc] via-[#e0f2fe] to-[#f8fafc] dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e293b] backdrop-blur border-b border-gray-200 dark:border-gray-700 shadow-sm px-4 md:px-12 transition-all duration-300 z-50">
+  <>
+    {/* Outer container for background and positioning */}
+    <div className="fixed top-0 left-0 w-full mt-1 bg-gradient-to-r from-[#f8fafc] via-[#e0f2fe] to-[#f8fafc] dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e293b] backdrop-blur border-b border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 z-50">
+      
+      {/* Inner container for content alignment and padding */}
+      <div className="navbar px-4 md:px-12 mx-auto">
+        
+        {/* Navbar Start (Desktop Logo) */}
         <div className="navbar-start hidden lg:flex items-center">
           <img
             src={Image}
@@ -108,16 +114,16 @@ const Navbar = () => {
             className="w-15 h-15 rounded-full mr-3 shadow-md"
           />
           <span className="text-2xl font-extrabold tracking-wide select-none">
-          <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent dark:from-green-400 dark:to-teal-300">
-  Echo
-</span>
-<span className="bg-gradient-to-r from-gray-500 to-zinc-300 bg-clip-text text-transparent dark:from-green-300 dark:to-emerald-200">
-  Nest
-</span>
-
+            <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent dark:from-green-400 dark:to-teal-300">
+              Echo
+            </span>
+            <span className="bg-gradient-to-r from-gray-500 to-zinc-300 bg-clip-text text-transparent dark:from-green-300 dark:to-emerald-200">
+              Nest
+            </span>
           </span>
         </div>
 
+        {/* Navbar Start */}
         <div className="lg:hidden navbar-start" ref={dropdownRef}>
           <div className="dropdown relative">
             <button
@@ -128,18 +134,23 @@ const Navbar = () => {
               <FaBars className="text-2xl" />
             </button>
             <ul
-              className={`absolute top-12 z-50 w-52 p-2  rounded-xl shadow-xl transition-all duration-300 transform bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
-               ${dropdownOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"} space-y-2`}
+              className={`absolute top-12 z-50 w-52 p-2 rounded-xl shadow-xl transition-all duration-300 transform bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 ${
+                dropdownOpen
+                  ? "opacity-100 scale-100 visible"
+                  : "opacity-0 scale-95 invisible"
+              } space-y-2`}
             >
               {navLinks}
             </ul>
           </div>
         </div>
 
+        {/* Navbar Center  */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal space-x-5">{navLinks}</ul>
         </div>
 
+        {/* Navbar End */}
         <div className="navbar-end flex items-center gap-3">
           <ToggleTheme />
           {user ? (
@@ -147,31 +158,24 @@ const Navbar = () => {
           ) : (
             <>
               <NavLink
-  to="/login"
-  className="btn btn-sm px-5 py-2 bg-gradient-to-r from-pink-500 to-rose-600 
-             hover:from-rose-600 hover:to-pink-500 
-             text-white font-semibold rounded-lg shadow-lg 
-             transition duration-300 border border-pink-600 outline-none focus:outline-none"
->
- <RiLoginBoxLine className="inline  mr-2 text-lg" />  Login
-</NavLink>
-
-<NavLink
-  to="/register"
-  className="btn btn-sm px-5 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 
-             hover:from-purple-600 hover:to-indigo-500 
-             text-white font-semibold rounded-lg shadow-lg 
-             transition duration-300 border border-purple-600 outline-none focus:outline-none"
->
-<FaUserPlus className="inline mr-2 text-lg" /> Register
-</NavLink>
-
+                to="/login"
+                className="btn btn-sm px-5 py-2 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-500 text-white font-semibold rounded-lg shadow-lg transition duration-300 border border-pink-600 outline-none focus:outline-none"
+              >
+                <RiLoginBoxLine className="inline mr-2 text-lg" /> Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className="btn btn-sm px-5 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-purple-600 hover:to-indigo-500 text-white font-semibold rounded-lg shadow-lg transition duration-300 border border-purple-600 outline-none focus:outline-none"
+              >
+                <FaUserPlus className="inline mr-2 text-lg" /> Register
+              </NavLink>
             </>
           )}
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 
 export default Navbar;
