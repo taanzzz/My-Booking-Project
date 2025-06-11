@@ -11,6 +11,9 @@ import UserProfile from "../Components/User/UserProfile";
 import PrivateRoute from "../Components/PrivateRoute/PrivateRoute";
 import { createBrowserRouter } from "react-router";
 import ErrorPage from "../Home/ErrorPage/ErrorPage";
+import ContactUs from './../Page/ContactUs';
+import AboutUs from "../Page/AboutUs";
+
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +23,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "rooms", element: <RoomsPage /> },
+      { path: "/contact", element: <ContactUs /> },
+      { path: "/about", element: <AboutUs /> },
       {
         path: "rooms/:id",
         element: (
@@ -64,4 +69,5 @@ export const router = createBrowserRouter([
   },
   { path: "/login", element: <LoginForm /> },
   { path: "/register", element: <Register /> },
+  
 ]);

@@ -85,8 +85,7 @@ const RoomsPage = () => {
               <Link
                 to={`/rooms/${room._id}`}
                 className="mt-auto inline-flex items-center justify-center gap-2 
-                  bg-gradient-to-r from-indigo-500 to-purple-600 
-                  hover:from-purple-600 hover:to-indigo-500 
+                   bg-gradient-to-r from-green-400 to-blue-500   shadow hover:scale-105 
                   text-white font-semibold rounded-lg px-5 py-3 transition duration-300"
               >
                 View Details <FaArrowRight />

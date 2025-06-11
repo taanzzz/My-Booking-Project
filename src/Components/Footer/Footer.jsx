@@ -17,7 +17,7 @@ import {
   FaHeadset,
 } from "react-icons/fa";
 import Logo from "../../assets/log3.jpg";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Footer = () => {
   return (
@@ -56,7 +56,7 @@ const Footer = () => {
             </li>
             <li className="flex items-center gap-2">
               <FaInfoCircle className="text-blue-500" />
-              <Link to="/about" className="hover:text-blue-600">About Us</Link>
+              <NavLink to="/about" className="hover:text-blue-600">About Us</NavLink>
             </li>
           </ul>
         </div>
