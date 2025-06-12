@@ -8,6 +8,7 @@ import OfferModal from '../HomeComponents/OfferModal'
 import StatsCounter from '../HomeComponents/StatsCounter'
 
 
+
 const Home = () => {
   return (
     <div className=''>

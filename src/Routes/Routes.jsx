@@ -13,6 +13,7 @@ import { createBrowserRouter } from "react-router";
 import ErrorPage from "../Home/ErrorPage/ErrorPage";
 import ContactUs from './../Page/ContactUs';
 import AboutUs from "../Page/AboutUs";
+import BookingConfirmationPage from "../HomeComponents/BookingConfirmationPage";
 
 
 export const router = createBrowserRouter([
@@ -38,6 +39,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyBookings />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "confirmation/:bookingId",
+        element: (
+          <PrivateRoute>
+            <BookingConfirmationPage />
           </PrivateRoute>
         ),
       },

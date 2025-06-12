@@ -12,16 +12,17 @@ import 'leaflet/dist/leaflet.css';
 import { Link } from 'react-router';
 
 
+
 const destinations = [
     {
         id: 1, city: 'Paris', country: 'France',
         imageUrl: 'https://i.ibb.co/TBj2NF3F/20250610-053909.jpg',
-        coordinates: [48.8566, 2.3522], description: "The city of love, art, and fashion."
+        coordinates: [48.8566, 2.3522], description: "The city of love,art and fashion."
     },
     {
         id: 2, city: 'Zurich', country: 'Switzerland',
         imageUrl: 'https://i.ibb.co/BVm2Wx3D/20250610-045559.jpg',
-        coordinates: [47.3769, 8.5417], description: "A global center for banking and finance, set by a pristine lake."
+        coordinates: [47.3769, 8.5417], description: "A global center for banking and finance,set by a pristine lake."
     },
     {
         id: 3, city: 'Bali', country: 'Indonesia',
@@ -82,15 +83,17 @@ const createCustomIcon = (colorClass) => new L.divIcon({
 });
 const defaultIcon = createCustomIcon('text-gray-500');
 const activeIcon = createCustomIcon('text-primary');
+
 function ChangeMapView({ coords }) {
     const map = useMap();
-    map.flyTo(coords, 6, { animate: true, duration: 1.5 });
+    map.flyTo(coords, map.getZoom(), { animate: true, duration: 1.5 });
     return null;
 }
 
 const FeaturedDestinations = () => {
     const [activeLocation, setActiveLocation] = useState(destinations[0].coordinates);
-    const handleCardClick = (coords) => {
+    
+    const handleLocationChange = (coords) => {
         setActiveLocation(coords);
     };
 
@@ -103,95 +106,90 @@ const FeaturedDestinations = () => {
                         Slide through destinations or click one to explore on the map.
                     </p>
                 </div>
-
                 
-                <div className="pb-8">
-                    <Swiper
-                        modules={[Autoplay]}
-                        spaceBetween={30}
-                        loop={true}
-                        autoplay={{
-                            delay: 2500,
-                            disableOnInteraction: false,
-                        }}
-                        grabCursor={true}
-                        breakpoints={{
-                            
-                            320: {
-                                slidesPerView: 1,
-                                spaceBetween: 20
-                            },
-                            
-                            640: {
-                                slidesPerView: 2,
-                                spaceBetween: 20
-                            },
-                            
-                            1024: {
-                                slidesPerView: 3,
-                                spaceBetween: 30
-                            },
-                            
-                            1280: {
-                                slidesPerView: 4,
-                                spaceBetween: 30
-                            },
-                        }}
-                        className="mySwiper"
-                    >
-                        {destinations.map((dest) => (
-                            <SwiperSlide key={dest.id}>
-                                <div onClick={() => handleCardClick(dest.coordinates)} className="h-full mb-5">
-                                    <div className={`card bg-base-100 shadow-xl border-2 transition-colors duration-300 h-full ${activeLocation[0] === dest.coordinates[0] ? 'border-primary' : 'border-transparent'}`}>
-                                        <figure className="h-40">
-                                            <img src={dest.imageUrl} alt={dest.city} className="w-full h-full object-cover" />
-                                        </figure>
-                                        <div className="card-body p-5">
-                                            <h3 className="card-title text-xl">{dest.city}</h3>
-                                            <p>{dest.country}</p>
+                
+                <div className="flex flex-col lg:gap-8">
+
+                    
+                    <div className="w-full order-2 lg:order-1">
+                        <Swiper
+                            modules={[Autoplay]}
+                            spaceBetween={30}
+                            loop={true}
+                            autoplay={{
+                                delay: 2500,
+                                disableOnInteraction: false,
+                            }}
+                            grabCursor={true}
+                            onSlideChange={(swiper) => {
+                                const currentDestination = destinations[swiper.realIndex];
+                                handleLocationChange(currentDestination.coordinates);
+                            }}
+                            breakpoints={{
+                                320: { slidesPerView: 1, spaceBetween: 20 },
+                                640: { slidesPerView: 2, spaceBetween: 20 },
+                                1024: { slidesPerView: 3, spaceBetween: 30 },
+                                1280: { slidesPerView: 4, spaceBetween: 30 },
+                            }}
+                            className="mySwiper py-4"
+                        >
+                            {destinations.map((dest) => (
+                                <SwiperSlide key={dest.id}>
+                                    <div onClick={() => handleLocationChange(dest.coordinates)} className="h-full mb-5 cursor-pointer">
+                                        <div className={`card bg-base-100 shadow-xl border-2 transition-colors duration-300 h-full ${activeLocation[0] === dest.coordinates[0] && activeLocation[1] === dest.coordinates[1] ? 'border-primary' : 'border-transparent'}`}>
+                                            <figure className="h-40">
+                                                <img src={dest.imageUrl} alt={dest.city} className="w-full h-full object-cover" />
+                                            </figure>
+                                            <div className="card-body p-5">
+                                                <h3 className="card-title text-xl">{dest.city}</h3>
+                                                <p>{dest.country}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
 
-
-                
-                <div className="mt-8 h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-base-300">
-                    <MapContainer
-                        center={activeLocation}
-                        zoom={5}
-                        style={{ height: '100%', width: '100%' }}
-                        scrollWheelZoom={false}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        {destinations.map(dest => (
-                            <Marker
-                                key={dest.id}
-                                position={dest.coordinates}
-                                icon={activeLocation[0] === dest.coordinates[0] ? activeIcon : defaultIcon}
+                    
+                    <div className="w-full order-1 lg:order-2">
+                        
+                        <div className="h-[300px] lg:h-[500px] w-full mb-2 rounded-2xl overflow-hidden shadow-2xl border-2 border-base-300">
+                            <MapContainer
+                                center={activeLocation}
+                                zoom={5}
+                                style={{ height: '100%', width: '100%' }}
+                                scrollWheelZoom={false}
                             >
-                                <Popup>
-                                    <div className="text-center w-40">
-                                        <h4 className="font-bold text-md">{dest.city}, {dest.country}</h4>
-                                        <p className="text-sm">{dest.description}</p>
-                                        <Link 
-                                        to={`/rooms`}
-                                        className="btn btn-primary btn-sm mt-2 inline-flex items-center gap-2">
-                                            <FaBed />
-                                            View Stays
-                                        </Link>
-                                    </div>
-                                </Popup>
-                            </Marker>
-                        ))}
-                        <ChangeMapView coords={activeLocation} />
-                    </MapContainer>
+                                <TileLayer
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                {destinations.map(dest => (
+                                    <Marker
+                                        key={dest.id}
+                                        position={dest.coordinates}
+                                        icon={activeLocation[0] === dest.coordinates[0] && activeLocation[1] === dest.coordinates[1] ? activeIcon : defaultIcon}
+                                    >
+                                        <Popup>
+                                            <div className="text-center w-40">
+                                                <h4 className="font-bold text-md">{dest.city}, {dest.country}</h4>
+                                                <p className="text-sm">{dest.description}</p>
+                                                <Link 
+                                                to={`/rooms`}
+                                                className="btn btn-primary btn-sm mt-2 inline-flex items-center gap-2">
+                                                    <FaBed />
+                                                    View Stays
+                                                </Link>
+                                            </div>
+                                        </Popup>
+                                    </Marker>
+                                ))}
+                                <ChangeMapView coords={activeLocation} />
+                            </MapContainer>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>

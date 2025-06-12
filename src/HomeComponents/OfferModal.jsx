@@ -185,7 +185,7 @@ const OfferModal = () => {
     <AnimatePresence>
       {showModal && (
         <motion.div
-          className="fixed inset-0 bg-opacity-70 z-50 flex items-center justify-center px-2"
+          className="fixed inset-0 bg-opacity-70 z-[1100] flex items-center justify-center px-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

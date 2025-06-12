@@ -1,34 +1,81 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { format } from "date-fns";
 import axiosSecure from "../Axios/Axios";
 import { AuthContext } from "../Components/AuthContext/AuthContext";
-import { FaTrashAlt, FaStar, FaCalendarAlt } from "react-icons/fa";
+import { FaTrashAlt, FaStar, FaCalendarAlt, FaThLarge, FaList,  FaSuitcaseRolling } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { Link } from "react-router";
+
+
+const EmptyState = () => (
+  <div className="text-center py-20 px-4">
+    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-base-200 shadow-lg">
+      <FaSuitcaseRolling className="text-4xl text-primary" />
+    </div>
+    <h3 className="mt-6 text-2xl font-semibold text-base-content">No Bookings Yet</h3>
+    <p className="mt-2 text-base text-base-content/70">Looks like you haven't booked any rooms with us.</p>
+    <div className="mt-8">
+      <Link 
+        to={`/rooms`}
+       className="btn btn-primary btn-wide shadow-lg hover:shadow-xl transition-shadow duration-300">
+        Explore Rooms
+      </Link>
+    </div>
+  </div>
+);
+
+
+const LoadingSpinner = () => (
+    <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <span className="loading loading-infinity w-24 text-primary"></span>
+        <p className="text-lg font-medium text-base-content/80 animate-pulse"></p>
+    </div>
+);
+
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
-  const [modalType, setModalType] = useState(null);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [newDate, setNewDate] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [view, setView] = useState("card"); 
+
+  const modalRef = useRef(null);
 
   useEffect(() => {
     if (user?.email) {
+      setIsLoading(true);
       axiosSecure
         .get(`/bookings?email=${user.email}`)
-        .then((res) => setBookings(res.data))
-        .catch((err) => console.error("Error fetching bookings:", err));
+        .then((res) => {
+            setBookings(res.data);
+            setIsLoading(false);
+        })
+        .catch((err) => {
+            console.error("Error fetching bookings:", err);
+            setIsLoading(false);
+        });
     }
   }, [user?.email]);
 
+  const openModal = (booking, type) => {
+    setSelectedBooking({ ...booking, modalType: type });
+    setNewDate(booking.date ? format(new Date(booking.date), "yyyy-MM-dd") : "");
+    modalRef.current?.showModal();
+  };
+
   const closeModal = () => {
-    setModalType(null);
-    setSelectedBooking(null);
-    setRating(5);
-    setComment("");
-    setNewDate("");
+    modalRef.current?.close();
+    
+    setTimeout(() => {
+        setSelectedBooking(null);
+        setRating(5);
+        setComment("");
+        setNewDate("");
+    }, 300);
   };
 
   const handleCancelBooking = async () => {
@@ -79,210 +126,195 @@ const MyBookings = () => {
   };
 
   const isCancelable = (date) => {
-  const bookingDate = new Date(date);
-  const today = new Date();
-  today.setHours(23, 59, 59, 999);
-  const diff = (bookingDate - today) / (1000 * 3600 * 24);
-  return diff >= 1;
-};
+    const bookingDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+    const diff = (bookingDate - today) / (1000 * 60 * 60 * 24);
+    return diff >= 1;
+  };
+  
+  const renderModalContent = () => {
+    if (!selectedBooking) return null;
+  
+    switch (selectedBooking.modalType) {
+      case "cancel":
+        return (
+          <>
+            <h3 className="font-bold text-2xl text-base-content">Confirm Cancellation</h3>
+            <p className="py-4 text-base-content/80">Are you sure you want to cancel your booking for <span className="font-semibold">{selectedBooking.roomName}</span>? This action cannot be undone.</p>
+            <div className="modal-action">
+              <button onClick={closeModal} className="btn btn-ghost">Dismiss</button>
+              <button onClick={handleCancelBooking} className="btn btn-error text-white">Yes, Cancel</button>
+            </div>
+          </>
+        );
+      case "review":
+        return (
+          <>
+            <h3 className="font-bold text-2xl text-base-content">Submit a Review</h3>
+             <p className="text-sm text-base-content/70 mb-4">
+               Reviewing as: <span className="font-semibold">{user.displayName}</span>
+             </p>
+             <div className="form-control gap-4">
+                <div className="rating rating-lg rating-half mb-2">
+                  {[...Array(10)].map((_, i) => (
+                    <input key={i} type="radio" name="rating-10"
+                      className={`bg-yellow-400 mask mask-star-2 ${i % 2 === 0 ? 'mask-half-1' : 'mask-half-2'}`}
+                      checked={rating === (i + 1) / 2}
+                      onChange={() => setRating((i + 1) / 2)}
+                    />
+                  ))}
+                </div>
+
+               <textarea
+                 value={comment}
+                 onChange={(e) => setComment(e.target.value)}
+                 className="textarea textarea-bordered h-28 w-full text-base"
+                 placeholder="How was your stay? What did you like or dislike?"
+               />
+             </div>
+             <div className="modal-action">
+               <button onClick={closeModal} className="btn btn-ghost">Cancel</button>
+               <button onClick={handleReviewSubmit} className="btn btn-primary">Submit Review</button>
+             </div>
+          </>
+        );
+      case "update":
+        return (
+          <>
+            <h3 className="font-bold text-2xl text-base-content">Update Booking Date</h3>
+            <p className="py-4 text-base-content/80">Select a new date for your booking at <span className="font-semibold">{selectedBooking.roomName}</span>.</p>
+            <div className="form-control w-full">
+              <input
+                type="date"
+                value={newDate}
+                onChange={(e) => setNewDate(e.target.value)}
+                className="input input-bordered w-full text-base"
+                min={format(new Date(), "yyyy-MM-dd")} 
+              />
+            </div>
+            <div className="modal-action">
+              <button onClick={closeModal} className="btn btn-ghost">Cancel</button>
+              <button onClick={handleUpdateDate} className="btn btn-primary">Update Date</button>
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
 
   return (
-    <div
-      className=" bg-gradient-to-tr from-[#f0f9ff] via-[#e0f2fe] to-[#f8fbff] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] mt-8 py-10 px-4"
-    >
-      <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-200">
-        My Bookings
-      </h2>
-      {bookings.length === 0 ? (
-        <p className="text-gray-600 dark:text-gray-400 text-center">No bookings found.</p>
-      ) : (
-        <div className="overflow-x-auto rounded-lg shadow-md">
-          <table className="min-w-full border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1e293b]">
-            <thead>
-              <tr className="bg-green-100 dark:bg-green-900 text-gray-700 dark:text-green-300">
-                <th className="p-3 border border-gray-300 dark:border-gray-700">Image</th>
-                <th className="p-3 border border-gray-300 dark:border-gray-700">Room</th>
-                <th className="p-3 border border-gray-300 dark:border-gray-700">Date</th>
-                <th className="p-3 border border-gray-300 dark:border-gray-700">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((b) => (
-                <tr
-                  key={b._id}
-                  className="text-center border-t border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#334155] transition-colors"
-                >
-                  <td className="p-3 border border-gray-300 dark:border-gray-700">
-  <div className="flex justify-center items-center w-full">
-    <img
-      src={b.image}
-      alt="Room"
-      className="h-16 w-40 rounded-lg object-cover shadow-sm mx-auto"
-    />
-  </div>
-</td>
-
-
-                  <td className="p-3 border border-gray-300 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-200">
-                    {b.roomName}
-                  </td>
-                  <td className="p-3 border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300">
-                    {format(new Date(b.date), "PPP")}
-                  </td>
-                  <td className="p-3  flex flex-wrap justify-center  gap-3">
-                    <button
-                      onClick={() => {
-                        if (isCancelable(b.date)) {
-                          setSelectedBooking(b);
-                          setModalType("cancel");
-                        } else {
-                          toast.warn(
-                            "Cancellations must be made at least 1 day in advance"
-                          );
-                        }
-                      }}
-                      className="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-200 transition dark:bg-red-900 dark:text-red-400 dark:hover:bg-red-800"
-                      title="Cancel Booking"
-                      aria-label="Cancel Booking"
-                    >
-                      <FaTrashAlt size={18} />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedBooking(b);
-                        setModalType("review");
-                      }}
-                      className="bg-yellow-100 text-yellow-600 p-2 rounded-lg hover:bg-yellow-200 transition dark:bg-yellow-900 dark:text-yellow-400 dark:hover:bg-yellow-800"
-                      title="Submit Review"
-                      aria-label="Submit Review"
-                    >
-                      <FaStar size={18} />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedBooking(b);
-                        setModalType("update");
-                      }}
-                      className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200 transition dark:bg-blue-900 dark:text-blue-400 dark:hover:bg-blue-800"
-                      title="Update Date"
-                      aria-label="Update Booking Date"
-                    >
-                      <FaCalendarAlt size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="bg-base-200/50 min-h-screen py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+             <h2 className="text-4xl font-bold text-base-content">My Bookings</h2>
+             {bookings.length > 0 && (
+                <div className="join">
+                    <button className={`btn join-item ${view === 'card' ? 'btn-primary' : 'btn-ghost'}`} onClick={() => setView('card')}><FaThLarge/></button>
+                    <button className={`btn join-item ${view === 'table' ? 'btn-primary' : 'btn-ghost'}`} onClick={() => setView('table')}><FaList/></button>
+                </div>
+             )}
         </div>
-      )}
+        
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : bookings.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <div>
+            {view === 'card' ? (
+              // Card View
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {bookings.map((b) => (
+                  <div key={b._id} className="card bg-base-100 shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    <figure><img src={b.image} alt={b.roomName} className="h-56 w-full object-cover" /></figure>
+                    <div className="card-body p-5">
+                      <h3 className="card-title text-xl font-semibold text-base-content">{b.roomName}</h3>
+                      <p className="text-base-content/70">Booking Date: <span className="font-medium text-base-content">{format(new Date(b.date), "PPP")}</span></p>
+                      <div className="card-actions justify-end mt-4 gap-2">
+                        <button onClick={() => openModal(b, "update")} className="btn btn-circle btn-outline btn-info" title="Update Date"><FaCalendarAlt /></button>
+                        <button onClick={() => openModal(b, "review")} className="btn btn-circle btn-outline btn-warning" title="Submit Review"><FaStar /></button>
+                        <button onClick={() => {
+                              if (isCancelable(b.date)) {
+                                  openModal(b, 'cancel');
+                              } else {
+                                  toast.warn("Cancellations must be made at least 1 day in advance.");
+                              }
+                          }} className="btn btn-circle btn-outline btn-error" title="Cancel Booking" disabled={!isCancelable(b.date)}>
+                          <FaTrashAlt />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              // Table View
+              <div className="overflow-x-auto bg-base-100 rounded-2xl shadow-xl">
+                <table className="table table-lg">
+                  <thead className="bg-base-200">
+                    <tr>
+                      <th className="rounded-tl-2xl">Room</th>
+                      <th>Booking Date</th>
+                      <th className="text-right rounded-tr-2xl">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bookings.map((b) => (
+                      <tr key={b._id} className="hover:bg-base-200 transition-colors duration-200">
+                        <td>
+                          <div className="flex items-center gap-4">
+                            <div className="avatar">
+                              <div className="mask mask-squircle w-16 h-16">
+                                <img src={b.image} alt={b.roomName} />
+                              </div>
+                            </div>
+                            <div>
+                              <div className="font-bold text-base-content">{b.roomName}</div>
+                              <div className="text-sm opacity-60">${b.price} per night</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="font-medium text-base-content/90">{format(new Date(b.date), "PPP")}</td>
+                        <td>
+                            {/* THIS IS THE CORRECTED PART */}
+                            <div className="flex flex-wrap justify-start md:justify-end items-center gap-2">
+                                <button onClick={() => openModal(b, "update")} className="btn btn-sm btn-ghost btn-circle" title="Update Date"><FaCalendarAlt className="text-info"/></button>
+                                <button onClick={() => openModal(b, "review")} className="btn btn-sm btn-ghost btn-circle" title="Submit Review"><FaStar className="text-warning"/></button>
+                                <button onClick={() => {
+                                        if (isCancelable(b.date)) {
+                                            openModal(b, 'cancel');
+                                        } else {
+                                            toast.warn("Cancellations must be made at least 1 day in advance.");
+                                        }
+                                    }} className="btn btn-sm btn-ghost btn-circle" title="Cancel Booking" disabled={!isCancelable(b.date)}>
+                                    <FaTrashAlt className="text-error"/>
+                                </button>
+                            </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
-      {/* Cancel Modal */}
-      {modalType === "cancel" && (
-        <Modal title="Confirm Cancel?" onClose={closeModal}>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
-            Are you sure you want to cancel this booking?
-          </p>
-          <ModalActions
-            onCancel={closeModal}
-            onConfirm={handleCancelBooking}
-            confirmClass="bg-red-600 hover:bg-red-700"
-            confirmText="Yes, Cancel"
-          />
-        </Modal>
-      )}
-
-      {/* Review Modal */}
-      {modalType === "review" && (
-        <Modal title="Submit Review" onClose={closeModal}>
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-            Name: <span className="font-semibold">{user.displayName}</span>
-          </p>
-          <input
-            type="number"
-            min={1}
-            max={5}
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-            className="border border-gray-300 dark:border-gray-600 p-2 rounded-md w-full mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-[#334155] text-black dark:text-white"
-            placeholder="Rating (1-5)"
-          />
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="border border-gray-300 dark:border-gray-600 p-2 rounded-md w-full h-24 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-[#334155] text-black dark:text-white"
-            placeholder="Write your comment..."
-          />
-          <ModalActions
-            onCancel={closeModal}
-            onConfirm={handleReviewSubmit}
-            confirmClass="bg-yellow-600 hover:bg-yellow-700"
-            confirmText="Submit"
-          />
-        </Modal>
-      )}
-
-      {/* Update Date Modal */}
-      {modalType === "update" && (
-        <Modal title="Update Booking Date" onClose={closeModal}>
-          <input
-            type="date"
-            value={newDate}
-            onChange={(e) => setNewDate(e.target.value)}
-            className="border border-gray-300 dark:border-gray-600 p-2 rounded-md w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white dark:bg-[#334155] text-black dark:text-white"
-          />
-          <ModalActions
-            onCancel={closeModal}
-            onConfirm={handleUpdateDate}
-            confirmClass="bg-blue-600 hover:bg-blue-700"
-            confirmText="Update"
-          />
-        </Modal>
-      )}
+       {/* Enhanced DaisyUI Modal */}
+       <dialog id="my-modal" ref={modalRef} className="modal modal-middle">
+        <div className="modal-box backdrop-blur-md bg-base-100/80 shadow-2xl">
+          {renderModalContent()}
+        </div>
+        <form method="dialog" className="modal-backdrop">
+            <button onClick={closeModal}>close</button>
+        </form>
+       </dialog>
     </div>
   );
 };
-
-const Modal = ({ title, children, onClose }) => (
-  <div
-    className="fixed inset-0 flex items-center justify-center z-50 bg-white/30 dark:bg-gray-900/30 backdrop-blur-sm"
-  >
-    <div
-      className="bg-white dark:bg-[#1e293b] p-7 rounded-2xl shadow-xl max-w-md w-full relative animate-fadeIn"
-      style={{
-        boxShadow:
-          "0 12px 30px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06)",
-      }}
-    >
-      <button
-        onClick={onClose}
-        className="absolute top-3 right-3 text-gray-400 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-2xl font-bold transition"
-        aria-label="Close modal"
-      >
-        &times;
-      </button>
-      <h3 className="text-xl font-semibold mb-5 text-gray-800 dark:text-gray-200">{title}</h3>
-      {children}
-    </div>
-  </div>
-);
-
-const ModalActions = ({ onCancel, onConfirm, confirmText, confirmClass }) => (
-  <div className="mt-6 flex justify-end gap-4">
-    <button
-      onClick={onCancel}
-      className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#334155] transition"
-    >
-      Cancel
-    </button>
-    <button
-      onClick={onConfirm}
-      className={`px-4 py-2 text-white rounded-lg transition ${confirmClass}`}
-    >
-      {confirmText}
-    </button>
-  </div>
-);
 
 export default MyBookings;

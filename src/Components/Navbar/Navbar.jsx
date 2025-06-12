@@ -101,7 +101,7 @@ const Navbar = () => {
   return (
   <>
     {/* Outer container for background and positioning */}
-    <div className="fixed top-0 left-0 w-full mt-1 bg-gradient-to-r from-[#f8fafc] via-[#e0f2fe] to-[#f8fafc] dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e293b] backdrop-blur border-b border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 z-50">
+    <div className="fixed top-0 left-0  w-full mt-1 bg-gradient-to-r from-[#f8fafc] via-[#e0f2fe] to-[#f8fafc] dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e293b] backdrop-blur border-b border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 z-[1000] ">
       
       {/* Inner container for content alignment and padding */}
       <div className="navbar px-4 md:px-12 mx-auto">
