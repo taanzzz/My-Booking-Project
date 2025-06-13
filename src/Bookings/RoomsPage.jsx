@@ -30,7 +30,7 @@ const RoomsPage = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [loading, setLoading] = useState(true);
-  const [layout, setLayout] = useState("card"); // 'card' or 'table'
+  const [layout, setLayout] = useState("card"); 
 
   useEffect(() => {
     setLoading(true);

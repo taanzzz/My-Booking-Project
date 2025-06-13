@@ -4,6 +4,8 @@ import './index.css'
 import {RouterProvider} from "react-router";
 import { router } from './Routes/Routes';
 import { AuthProvider } from './Components/AuthContext/AuthContext';
+import "@fontsource/montserrat";
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

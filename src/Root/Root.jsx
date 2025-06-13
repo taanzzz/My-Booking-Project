@@ -9,7 +9,7 @@ const Root = () => {
     <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Navbar />
       <ScrollToTop></ScrollToTop>
-      <div className="flex-grow pt-2 mt-17">
+      <div className="flex-grow  mt-17">
         <Outlet />
       </div>
       <Footer />

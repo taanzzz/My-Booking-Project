@@ -18,3 +18,8 @@
   align-items: center;
   justify-content: center;
 }
+
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}

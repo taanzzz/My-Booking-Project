@@ -1,7 +1,9 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../Components/AuthContext/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { FaArrowRight, FaTimes } from "react-icons/fa";
+import { Link } from "react-router";
 
 const allOffers = [
   {
@@ -127,118 +129,121 @@ const allOffers = [
 ];
 
 const getRandomOffers = () => {
-  const shuffled = [...allOffers].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 4);
+    const shuffled = [...allOffers].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 4);
 };
 
 const OfferModal = () => {
-  const { user } = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false);
-  const [randomOffers, setRandomOffers] = useState([]);
+    const { user } = useContext(AuthContext);
+    const [showModal, setShowModal] = useState(false);
+    const [randomOffers, setRandomOffers] = useState([]);
 
-  useEffect(() => {
-    
-    if (user && !sessionStorage.getItem('offerModalShown')) {
-      setRandomOffers(getRandomOffers());
-      setShowModal(true);
-      
-      sessionStorage.setItem('offerModalShown', 'true');
-      
-      setTimeout(() => {
-        confetti({
-          particleCount: 180,
-          spread: 120,
-          origin: { y: 0.4 },
-        });
-      }, 600);
-    }
-  }, [user]); 
+    useEffect(() => {
+        if (user && !sessionStorage.getItem('offerModalShown')) {
+            setRandomOffers(getRandomOffers());
+            setShowModal(true);
+            sessionStorage.setItem('offerModalShown', 'true');
+            
+            setTimeout(() => {
+                
+                confetti({
+                    particleCount: 180,
+                    spread: 120,
+                    origin: { y: 0.4 },
+                    zIndex: 1200 
+                });
+            }, 600);
+        }
+    }, [user]);
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
-  const typeEmojis = {
-    Couples: "💑",
-    Single: "🧍‍♂️",
-    Business: "💼",
-    Family: "👨‍👩‍👧‍👦",
-    Adventure: "🧗‍♂️",
-    Luxury: "🛎️",
-    Student: "🎓",
-    Weekend: "📅",
-    Spa: "💆‍♀️",
-    Nature: "🌿",
-    Desert: "🏜️",
-    Beach: "🏖️",
-    Festival: "🎉",
-    LongStay: "🛌",
-    EarlyBird: "⏰",
-    Honeymoon: "🍷",
-    PetFriendly: "🐶",
-    Winter: "❄️",
-    CityTour: "🏙️",
-    FlashDeal: "⚡",
-  };
-
-  return (
-    <AnimatePresence>
-      {showModal && (
-        <motion.div
-          className="fixed inset-0 bg-opacity-70 z-[1100] flex items-center justify-center px-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          role="dialog"
-          aria-label="Special Offers Modal"
-        >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[90vh] relative"
-          >
-            <button
-              onClick={closeModal} 
-              className="absolute top-2 right-2 sm:top-4 sm:right-4 text-gray-600 hover:text-red-500 transition text-xl sm:text-2xl font-bold z-50"
-              aria-label="Close modal"
-            >
-              &times;
-            </button>
-
-            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-blue-700">
-              🎁 Best Offers Just for You!
-            </h2>
-
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-5">
-              {randomOffers.map((offer, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-xl overflow-hidden shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 bg-gray-50"
+    return (
+        <AnimatePresence>
+            {showModal && (
+                <motion.div
+                    
+                    className="fixed inset-0 bg-black/50 backdrop-blur-md z-[1000] flex items-center justify-center p-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="offer-modal-title"
                 >
-                  <img
-                    src={offer.image}
-                    alt={offer.title}
-                    className="w-full h-40 md:h-80 object-cover"
-                    loading="lazy"
-                  />
-                  <div className="p-4">
-                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1">
-                      {typeEmojis[offer.type]} <span className="text-blue-600 font-extrabold text-sm sm:text-2xl">{offer.title}</span>
-                    </h3>
-                    <p className="text-gray-700 font-extrabold text-sm sm:text-base">
-                      {offer.desc}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.8, opacity: 0, y: 20 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                        className="bg-base-100 w-full max-w-4xl rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
+                    >
+                        <div className="p-4 sm:p-6 flex-shrink-0">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <h2 id="offer-modal-title" className="text-2xl sm:text-3xl font-extrabold text-base-content">
+                                        🎁 Deals Just For You!
+                                    </h2>
+                                    <p className="text-base-content/70 mt-1 text-sm sm:text-base">
+                                        Welcome, {user?.displayName}! Here are some special offers.
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={closeModal}
+                                    className="btn btn-sm btn-circle btn-ghost"
+                                    aria-label="Close modal"
+                                >
+                                    <FaTimes />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="overflow-y-auto p-4 sm:p-6 pt-0">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {randomOffers.map((offer, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        className="card image-full shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.2 + idx * 0.1 }}
+                                    >
+                                        <figure className="h-48 md:h-64">
+                                            <img
+                                                src={offer.image}
+                                                alt={offer.title}
+                                                className="w-full h-full object-cover"
+                                                loading="lazy"
+                                            />
+                                        </figure>
+                                        <div className="card-body justify-between p-4 sm:p-5">
+                                            <div>
+                                                <div className="badge badge-primary font-semibold">{offer.type}</div>
+                                                <h3 className="card-title text-xl sm:text-2xl font-bold text-white mt-2">
+                                                    {offer.title}
+                                                </h3>
+                                                <p className="text-white/90 text-sm sm:text-base">{offer.desc}</p>
+                                            </div>
+                                            <div className="card-actions justify-end">
+                                                <Link
+  to="/rooms"
+  className="btn btn-primary btn-sm btn-outline border-white text-white hover:bg-white hover:text-primary inline-flex items-center gap-1"
+>
+  View Offer <FaArrowRight />
+</Link>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
 };
 
 export default OfferModal;

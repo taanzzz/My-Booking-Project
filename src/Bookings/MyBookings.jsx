@@ -225,7 +225,7 @@ const MyBookings = () => {
         ) : (
           <div>
             {view === 'card' ? (
-              // Card View
+              
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {bookings.map((b) => (
                   <div key={b._id} className="card bg-base-100 shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
@@ -251,7 +251,7 @@ const MyBookings = () => {
                 ))}
               </div>
             ) : (
-              // Table View
+              
               <div className="overflow-x-auto bg-base-100 rounded-2xl shadow-xl">
                 <table className="table table-lg">
                   <thead className="bg-base-200">
@@ -279,7 +279,7 @@ const MyBookings = () => {
                         </td>
                         <td className="font-medium text-base-content/90">{format(new Date(b.date), "PPP")}</td>
                         <td>
-                            {/* THIS IS THE CORRECTED PART */}
+                            
                             <div className="flex flex-wrap justify-start md:justify-end items-center gap-2">
                                 <button onClick={() => openModal(b, "update")} className="btn btn-sm btn-ghost btn-circle" title="Update Date"><FaCalendarAlt className="text-info"/></button>
                                 <button onClick={() => openModal(b, "review")} className="btn btn-sm btn-ghost btn-circle" title="Submit Review"><FaStar className="text-warning"/></button>
@@ -304,7 +304,7 @@ const MyBookings = () => {
         )}
       </div>
 
-       {/* Enhanced DaisyUI Modal */}
+       
        <dialog id="my-modal" ref={modalRef} className="modal modal-middle">
         <div className="modal-box backdrop-blur-md bg-base-100/80 shadow-2xl">
           {renderModalContent()}

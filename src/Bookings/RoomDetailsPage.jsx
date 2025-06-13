@@ -7,250 +7,300 @@ import axiosSecure from "../Axios/Axios";
 import { AuthContext } from "../Components/AuthContext/AuthContext";
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
-import { FaUserFriends, FaSpinner, FaTimes, FaInfoCircle } from "react-icons/fa"; 
+import { FaUserFriends, FaStar, FaStarHalfAlt, FaRegStar, FaTimes, FaInfoCircle } from "react-icons/fa"; 
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useParams } from "react-router";
-import { motion, AnimatePresence } from "framer-motion"; 
 
-const isSameDay = (date1, date2) => {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
+
+const StarRating = ({ rating }) => {
+    const totalStars = 5;
+    const stars = [];
+    for (let i = 1; i <= totalStars; i++) {
+        if (i <= rating) stars.push(<FaStar key={i} />);
+        else if (i === Math.ceil(rating) && !Number.isInteger(rating)) stars.push(<FaStarHalfAlt key={i} />);
+        else stars.push(<FaRegStar key={i} />);
+    }
+    return <div className="flex items-center gap-1 text-orange-400">{stars}</div>;
 };
 
 
+const isSameDay = (d1, d2) => d1 && d2 && d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
+
+
+const RoomDetailsSkeleton = () => (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="w-full h-80 bg-base-300 rounded-2xl animate-pulse mb-8"></div>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+            <div className="lg:col-span-3 space-y-8">
+                <div className="bg-base-200 p-6 rounded-2xl animate-pulse">
+                    <div className="h-8 w-3/4 bg-base-300 rounded mb-4"></div>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="h-6 w-24 bg-base-300 rounded-full"></div>
+                        <div className="h-6 w-32 bg-base-300 rounded-full"></div>
+                        <div className="h-6 w-28 bg-base-300 rounded-full"></div>
+                    </div>
+                    <div className="space-y-2 mt-4">
+                        <div className="h-4 bg-base-300 rounded"></div>
+                        <div className="h-4 w-5/6 bg-base-300 rounded"></div>
+                    </div>
+                </div>
+            </div>
+            <div className="lg:col-span-2">
+                <div className="bg-base-200 p-6 rounded-2xl animate-pulse h-48"></div>
+            </div>
+        </div>
+    </div>
+);
+
 const RoomDetailsPage = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
 
-  const [room, setRoom] = useState(null);
-  const [reviews, setReviews] = useState([]);
-  const [bookingDate, setBookingDate] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [userHasBooked, setUserHasBooked] = useState(false);
-  const [bookedDates, setBookedDates] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+    const [room, setRoom] = useState(null);
+    const [reviews, setReviews] = useState([]);
+    const [bookingDate, setBookingDate] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [userHasBooked, setUserHasBooked] = useState(false);
+    const [bookedDates, setBookedDates] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(true);
-    Promise.all([
-      axiosSecure.get(`/rooms/${id}`),
-      axiosSecure.get(`/reviews/${id}`),
-      axiosSecure.get(`/bookings/room/${id}/dates`)
-    ])
-    .then(([roomRes, reviewsRes, datesRes]) => {
-      setRoom(roomRes.data);
-      setReviews(reviewsRes.data);
-      const dates = datesRes.data.map((dateStr) => new Date(dateStr + 'T00:00:00'));
-      setBookedDates(dates);
-    })
-    .catch(error => {
-      console.error("Error fetching room data:", error);
-      toast.error("Could not load room details. Please try again.");
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        setIsLoading(true);
+        Promise.all([
+            axiosSecure.get(`/rooms/${id}`),
+            axiosSecure.get(`/reviews/${id}`),
+            axiosSecure.get(`/bookings/room/${id}/dates`)
+        ])
+        .then(([roomRes, reviewsRes, datesRes]) => {
+            setRoom(roomRes.data);
+            setReviews(reviewsRes.data);
+            const dates = datesRes.data.map((dateStr) => new Date(dateStr));
+            setBookedDates(dates);
+        })
+        .catch(error => {
+            console.error("Error fetching room data:", error);
+            toast.error("Could not load room details. Please try again.");
+            navigate('/');
+        })
+        .finally(() => setIsLoading(false));
 
-    if (user?.email) {
-      axiosSecure.get(`/bookings/check?roomId=${id}&email=${user.email}`)
-        .then((res) => {
-          setUserHasBooked(res.data.hasBooked);
-        });
-    }
-  }, [id, user?.email]);
+        if (user?.email) {
+            axiosSecure.get(`/bookings/check?roomId=${id}&email=${user.email}`)
+                .then((res) => setUserHasBooked(res.data.hasBooked));
+        }
+    }, [id, user?.email, navigate]);
 
-  const handleBooking = () => {
+    const handleBooking = () => {
     if (!bookingDate) return toast.error("Please select a booking date");
-    if (!user) return toast.error("Please log in to book a room");
+    if (!user) {
+        toast.error("Please log in to book a room");
+        navigate('/login');
+        return;
+    }
 
-    axiosSecure.post("/bookings", {
+    const bookingData = {
         roomId: room._id,
         date: format(bookingDate, "yyyy-MM-dd"),
         email: user.email,
         roomName: room.name,
         image: room.image,
         price: room.price,
-      })
-      .then((res) => {
-        toast.success("Room booked successfully!");
-        const newBookingId = res.data.insertedId;
-        if (newBookingId) {
-          navigate(`/confirmation/${newBookingId}`);
-        } else {
-          navigate('/my-bookings');
+    };
+
+    toast.promise(
+        axiosSecure.post("/bookings", bookingData).then(res => {
+            const newBookingId = res.data.insertedId;
+            setShowModal(false); 
+
+            
+            if (newBookingId) {
+                navigate(`/confirmation/${newBookingId}`);
+            } else {
+                navigate('/my-bookings');
+            }
+            
+            return res;
+        }),
+        {
+            pending: 'Confirming your booking...',
+            success: 'Room booked successfully! 🎉',
+            error: {
+                render({ data }) {
+                    return data.response?.status === 409
+                        ? "This date is already booked."
+                        : "Booking failed. Please try again.";
+                }
+            }
         }
-      })
-      .catch((error) => {
-        if (error.response?.status === 409) {
-          toast.error("This room is already booked on the selected date.");
-        } else {
-          toast.error("Booking failed. Please try again.");
-        }
-      });
-  };
-  
-  
-  const renderDayContents = (day, date) => {
-    const isBooked = bookedDates.some(bookedDate => isSameDay(date, bookedDate));
-    if (isBooked) {
-      return (
-        <div title="Booked & Unavailable" className="react-datepicker__day--disabled-tooltip">
-          {day}
-        </div>
-      );
-    }
-    return day;
-  };
-
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-900">
-        <FaSpinner className="animate-spin text-4xl text-teal-500" />
-        <p className="mt-4 text-slate-600 dark:text-slate-400">Loading Room Details...</p>
-      </div>
     );
-  }
+};
 
-  if (!room) {
+    const renderDayContents = (day, date) => {
+        const isBooked = bookedDates.some(bookedDate => isSameDay(date, bookedDate));
+        if (isBooked) return <div title="Unavailable">{day}</div>;
+        return day;
+    };
+
+    if (isLoading) return <RoomDetailsSkeleton />;
+    if (!room) return null;
+
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-xl text-red-500">Sorry, the requested room could not be found.</p>
-      </div>
-    );
-  }
+        <>
+            
+            <style>{`/* ... (CSS styles remain unchanged) ... */`}</style>
 
-  return (
-    <div className="min-h-screen bg-gradient-to-tr from-[#f0f9ff] via-[#e0f2fe] to-[#f8fbff] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] py-10">
-      <div className="p-4 max-w-4xl mx-auto space-y-10">
-        
-        
-        <div className="rounded-xl overflow-hidden shadow-xl">
-          <img src={room.image} alt={room.name} className="w-full h-auto md:h-96 object-cover"/>
-        </div>
+            <div className="bg-base-200/50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="w-full h-64 md:h-96 rounded-2xl overflow-hidden shadow-2xl mb-8 md:mb-12"
+                    >
+                        <img src={room.image} alt={room.name} className="w-full h-full object-cover" />
+                    </motion.div>
 
-        <div className="p-6 rounded-xl shadow-xl bg-white dark:bg-slate-800">
-            
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                <MdOutlineBedroomParent className="text-teal-500" /> {room.name}
-            </h1>
-            <div className="flex flex-wrap gap-2 mt-4">
-                <span className="bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 px-3 py-1 rounded-full text-sm font-semibold">💵 ${room.price} /night</span>
-                <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1"><IoLocationSharp /> {room.location}</span>
-                <span className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1"><FaUserFriends /> Max Guests: {room.maxGuests}</span>
-                <span className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 px-3 py-1 rounded-full text-sm font-semibold">⭐ {room.rating} Rating</span>
-            </div>
-            <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">{room.description}</p>
-            
-            <div className="mt-6">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Features:</h3>
-                <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-1">
-                    {room.features?.map((feature, index) => <li key={index}>{feature}</li>)}
-                </ul>
-            </div>
-            
-            <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
-                {!userHasBooked ? (
-                <button className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-8 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-105" onClick={() => setShowModal(true)}>
-                    Book This Room
-                </button>
-                ) : (
-                <p className="text-green-600 font-semibold text-lg">You have a booking for this room. Manage it in "My Bookings".</p>
-                )}
-            </div>
-        </div>
-        <div className="p-6 rounded-xl shadow-xl bg-white dark:bg-slate-800">
-            
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">Reviews</h2>
-            {reviews.length > 0 ? (
-                <div className="space-y-4">
-                {reviews.map((review) => (
-                    <div key={review._id} className="border-l-4 border-teal-500 p-4 bg-gray-50 dark:bg-slate-700 rounded-r-lg">
-                    <div className="flex items-center gap-3">
-                        <img src={review.userPhoto} alt={review.username} className="w-10 h-10 rounded-full object-cover" />
-                        <div>
-                        <p className="font-semibold text-gray-800 dark:text-white">{review.username}</p>
-                        <p className="text-yellow-500 text-sm">{'⭐'.repeat(review.rating)}</p>
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                        <div className="lg:col-span-3 space-y-10">
+                            <div className="card bg-base-100 shadow-xl rounded-2xl">
+                                <div className="card-body">
+                                    <h1 className="card-title text-3xl lg:text-4xl font-extrabold text-base-content flex items-center gap-3">
+                                        <MdOutlineBedroomParent className="text-primary" /> {room.name}
+                                    </h1>
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        <div className="badge badge-lg badge-outline gap-2"><IoLocationSharp /> {room.location}</div>
+                                        <div className="badge badge-lg badge-outline gap-2"><FaUserFriends /> Max: {room.maxGuests} Guests</div>
+                                        
+                                        <div className="badge badge-lg badge-outline gap-2"><StarRating rating={room.rating} /> ({reviews.length} Reviews)</div>
+                                    </div>
+                                    <p className="mt-4 text-base-content/80 leading-relaxed">{room.description}</p>
+                                    <div className="mt-6">
+                                        <h3 className="text-lg font-semibold text-base-content mb-2">Room Features:</h3>
+                                        <ul className="list-disc list-inside text-base-content/80 space-y-1 marker:text-primary">
+                                            {room.features?.map((feature, index) => <li key={index}>{feature}</li>)}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card bg-base-100 shadow-xl rounded-2xl">
+                                <div className="card-body">
+                                    <h2 className="card-title text-2xl font-bold">Guest Reviews</h2>
+                                    {reviews.length > 0 ? (
+                                        <div className="space-y-6 mt-4">
+                                            {reviews.map((review) => (
+                                                <div key={review._id} className="flex items-start gap-4">
+                                                    <div className="avatar">
+                                                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                                            <img src={review.userPhoto} alt={review.username} />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="flex items-center gap-3 mb-1">
+                                                            <p className="font-bold text-base-content">{review.username}</p>
+                                                            
+                                                            <StarRating rating={review.rating} />
+                                                        </div>
+                                                        <p className="text-sm text-base-content/60 mb-2">{format(new Date(review.createdAt), 'MMMM d, yyyy')}</p>
+                                                        <p className="text-base-content/80 italic">"{review.comment}"</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-base-content/60 mt-4">No reviews available for this room yet.</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-2">
+                            <div className="card bg-base-100 shadow-2xl rounded-2xl">
+                                <div className="card-body">
+                                    <p className="text-2xl font-bold text-base-content mb-4">
+                                        <span className="text-4xl font-extrabold text-primary">${room.price}</span>
+                                        <span className="text-base-content/60 font-medium"> / night</span>
+                                    </p>
+                                    <p className="text-base-content/70">Ready for an unforgettable stay? Click below to select your date and confirm your booking.</p>
+                                    <div className="card-actions mt-4">
+                                        {userHasBooked ? (
+                                             <div className="alert alert-success shadow-lg">
+                                                  <div>
+                                                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                      <span>You have a booking here.See "My Bookings".</span>
+                                                  </div>
+                                             </div>
+                                        ) : (
+                                            <button onClick={() => setShowModal(true)} className="btn btn-primary btn-block text-lg">
+                                                Book Now
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p className="text-sm mt-2 text-gray-600 dark:text-gray-300">{review.comment}</p>
-                    <p className="text-xs text-gray-400 mt-2">{new Date(review.createdAt).toLocaleDateString()}</p>
-                    </div>
-                ))}
                 </div>
-            ) : (
-                <p className="text-gray-500 dark:text-gray-400">No reviews available for this room yet.</p>
-            )}
-        </div>
-      </div>
+            </div>
+            
+            <AnimatePresence>
+                {showModal && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 backdrop-blur-sm p-4"
+                    >
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 50, opacity: 0 }}
+                            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                            className="bg-base-100 rounded-2xl shadow-2xl w-full max-w-md"
+                        >
+                            <div className="flex items-center justify-between p-5 border-b border-base-300">
+                                <h2 className="text-xl font-bold">Confirm Your Stay</h2>
+                                <button onClick={() => setShowModal(false)} className="btn btn-sm btn-circle btn-ghost" aria-label="Close modal">
+                                    <FaTimes />
+                                </button>
+                            </div>
+                            
+                            <div className="p-6">
+                                <h3 className="font-bold text-lg text-primary">{room.name}</h3>
+                                <p className="text-sm text-base-content/60 mb-4">{room.description.slice(0, 100)}...</p>
+                                <p className="font-semibold text-lg mb-4">Price: <span className="font-extrabold text-primary">${room.price}</span> / night</p>
+                                
+                                <div className="datepicker-container">
+                                    <DatePicker
+                                        selected={bookingDate}
+                                        onChange={(date) => setBookingDate(date)}
+                                        minDate={new Date()}
+                                        excludeDates={bookedDates}
+                                        renderDayContents={renderDayContents}
+                                        inline
+                                    />
+                                </div>
 
-      
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm"
-          >
-            <motion.div
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 50, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md m-4"
-            >
-              
-              <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-slate-700">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-                  Book Your Stay
-                </h2>
-                <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition" aria-label="Close modal">
-                  <FaTimes size={20} />
-                </button>
-              </div>
-
-             
-              <div className="p-6">
-                <p className="font-semibold text-lg text-gray-700 dark:text-gray-200">{room.name}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">Price: <span className="font-bold text-teal-600 dark:text-teal-400">${room.price}</span> / night</p>
-                
-                <div className="datepicker-container">
-                  <DatePicker
-                    selected={bookingDate}
-                    onChange={(date) => setBookingDate(date)}
-                    minDate={new Date()}
-                    excludeDates={bookedDates}
-                    renderDayContents={renderDayContents} // Custom renderer for tooltips
-                    placeholderText="Click to select a booking date"
-                    inline
-                  />
-                </div>
-
-                <div className="mt-4 flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-900/50 rounded-lg">
-                  <FaInfoCircle className="text-blue-500 dark:text-blue-400 text-lg flex-shrink-0" />
-                  <p className="text-xs text-blue-700 dark:text-blue-300">
-                    Dates in gray are already booked by other guests. Hover on them to check.
-                  </p>
-                </div>
-              </div>
-
-              
-              <div className="flex justify-end gap-4 p-5 bg-gray-50 dark:bg-slate-900/50 rounded-b-2xl">
-                <button onClick={() => setShowModal(false)} className="px-5 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-500 transition">Cancel</button>
-                <button onClick={handleBooking} disabled={!bookingDate} className="px-5 py-2 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed disabled:dark:bg-gray-700">
-                  Confirm Booking
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+                                <div className="mt-4 flex items-center gap-2 p-3 bg-blue-500/10 rounded-lg">
+                                    <FaInfoCircle className="text-blue-500 text-lg flex-shrink-0" />
+                                    <p className="text-xs text-blue-700 dark:text-blue-300">Grayed out dates are already booked.</p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex justify-end gap-4 p-5 bg-base-200/50 rounded-b-2xl">
+                                <button onClick={() => setShowModal(false)} className="btn btn-ghost">Cancel</button>
+                                <button onClick={handleBooking} disabled={!bookingDate} className="btn btn-primary">
+                                    Confirm Booking
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
+    );
 };
 
 export default RoomDetailsPage;
