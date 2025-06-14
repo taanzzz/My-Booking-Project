@@ -6,6 +6,7 @@ import WhyChooseUs from '../HomeComponents/WhyChooseUs'
 import FeaturedDestinations from '../HomeComponents/FeaturedDestinations'
 import OfferModal from '../HomeComponents/OfferModal'
 import StatsCounter from '../HomeComponents/StatsCounter'
+import GalleryPage from '../Page/GalleryPage'
 
 
 
@@ -18,6 +19,7 @@ const Home = () => {
      <FeaturedRooms></FeaturedRooms>
      <WhyChooseUs></WhyChooseUs>
      <StatsCounter></StatsCounter>
+     <GalleryPage></GalleryPage>
      <FeaturedDestinations></FeaturedDestinations>
     </div>
   )
