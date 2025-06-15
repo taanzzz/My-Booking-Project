@@ -12,7 +12,9 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { auth } from './../../firebase/firebase.init';
-import LoadingSpinner from '../../Home/LoadingSpinner';
+import MobileLoader from '../../Home/MobileLoader';
+import RealisticSolarSystemLoader from '../../Home/LoadingSpinner';
+import useWindowSize from '../../Home/useWindowSize';
 
 
 
@@ -22,19 +24,17 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [width] = useWindowSize(); 
 
   const resetPassword = async (email) => {
     await sendPasswordResetEmail(auth, email);
   };
 
-  // Fetch JWT from backend
   const getJWT = async (email) => {
     try {
       const res = await fetch("https://hotel-db-server.vercel.app/jwt", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
@@ -47,14 +47,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-
-      
       setTimeout(() => {
         setLoading(false);
       }, 2000); 
     });
-
-    
     return () => unsubscribe();
   }, []);
 
@@ -72,13 +68,11 @@ export const AuthProvider = ({ children }) => {
       displayName: name,
       photoURL: photoURL || 'https://i.ibb.co/FbDdMYbZ/vecteezy-blue-profile-icon-36885313.png',
     });
-
     const user = {
       ...userCredential.user,
       displayName: name,
       photoURL: photoURL || 'https://i.ibb.co/FbDdMYbZ/vecteezy-blue-profile-icon-36885313.png',
     };
-
     await getJWT(email); 
     setUser(user);
     return userCredential;
@@ -102,7 +96,12 @@ export const AuthProvider = ({ children }) => {
   
   
   if (loading) {
-    return <LoadingSpinner />;
+    
+    if (width < 768) {
+      return <MobileLoader />;
+    }
+    
+    return <RealisticSolarSystemLoader />;
   }
 
   return (
@@ -120,8 +119,6 @@ export const AuthProvider = ({ children }) => {
       >
         {children}
       </AuthContext.Provider>
-
-      
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -134,29 +131,16 @@ export const AuthProvider = ({ children }) => {
         pauseOnHover
         style={{ top: "80px" }} 
         toastClassName={(context) => {
-          const base =
-            "backdrop-blur-lg bg-white/70 dark:bg-slate-900/70 shadow-xl rounded-2xl px-6 py-4 text-sm flex items-start gap-4 transition-all duration-300 border-l-4";
-
+          const base = "backdrop-blur-lg bg-white/70 dark:bg-slate-900/70 shadow-xl rounded-2xl px-6 py-4 text-sm flex items-start gap-4 transition-all duration-300 border-l-4";
           const type = context?.type;
           let colorClass = "";
-
           switch (type) {
-            case "success":
-              colorClass = "border-emerald-400 text-emerald-700 dark:text-emerald-300";
-              break;
-            case "error":
-              colorClass = "border-rose-400 text-rose-700 dark:text-rose-300";
-              break;
-            case "info":
-              colorClass = "border-sky-400 text-sky-700 dark:text-sky-300";
-              break;
-            case "warning":
-              colorClass = "border-amber-400 text-amber-700 dark:text-amber-300";
-              break;
-            default:
-              colorClass = "border-slate-300 text-slate-800 dark:text-slate-200";
+            case "success": colorClass = "border-emerald-400 text-emerald-700 dark:text-emerald-300"; break;
+            case "error": colorClass = "border-rose-400 text-rose-700 dark:text-rose-300"; break;
+            case "info": colorClass = "border-sky-400 text-sky-700 dark:text-sky-300"; break;
+            case "warning": colorClass = "border-amber-400 text-amber-700 dark:text-amber-300"; break;
+            default: colorClass = "border-slate-300 text-slate-800 dark:text-slate-200";
           }
-
           return `${base} ${colorClass}`;
         }}
         bodyClassName="flex flex-col gap-1 font-semibold tracking-wide"
