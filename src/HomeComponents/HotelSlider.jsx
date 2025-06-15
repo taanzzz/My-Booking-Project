@@ -203,6 +203,7 @@ const HotelSlider = () => {
                   key={hotel.title + i}
                   src={hotel.image}
                   alt={hotel.title}
+                  loading="lazy"
                   className="absolute w-full h-[75%] object-cover rounded-2xl shadow-2xl pointer-events-none"
                   animate={{ scale, opacity, y: translateY, zIndex }}
                   transition={{ type: "spring", stiffness: 100, damping: 20 }}

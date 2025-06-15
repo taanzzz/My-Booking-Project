@@ -149,6 +149,7 @@ const GalleryCarousel = ({ images, openLightbox }) => {
                             <img
                                 src={image.src}
                                 alt={image.alt}
+                                loading="lazy"
                                 className="w-full h-full object-cover transition-transform duration-400 ease-in-out group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
@@ -227,6 +228,7 @@ const Lightbox = ({ images, selectedIndex, closeLightbox, goToNext, goToPrev }) 
                             <img
                                 src={image.src}
                                 alt={image.alt}
+                                loading="lazy"
                                 className="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl"
                             />
                         </div>

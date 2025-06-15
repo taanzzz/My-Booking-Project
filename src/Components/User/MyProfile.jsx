@@ -88,6 +88,7 @@ const MyProfile = () => {
                     <img
                         src={user.photoURL || defaultPhoto}
                         alt="User profile"
+                        loading="lazy"
                     />
                 </div>
             </label>

@@ -12,9 +12,9 @@ const Starfield = ({ starCount = 100 }) => {
           id: i,
           top: `${Math.random() * 100}%`,
           left: `${Math.random() * 100}%`,
-          size: `${Math.random() * 2 + 1}px`, // 1px to 3px
-          animationDuration: `${Math.random() * 3 + 2}s`, // 2s to 5s
-          animationDelay: `${Math.random() * 3}s`, // 0s to 3s
+          size: `${Math.random() * 2 + 1}px`, 
+          animationDuration: `${Math.random() * 3 + 2}s`, 
+          animationDelay: `${Math.random() * 3}s`, 
         });
       }
       setStars(newStars);

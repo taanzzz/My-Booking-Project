@@ -81,6 +81,7 @@ const UserProfile = () => {
                                 <img
                                     src={user.photoURL || defaultPhoto}
                                     alt="User Avatar"
+                                    loading="lazy"
                                 />
                             </div>
                         </div>

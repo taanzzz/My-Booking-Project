@@ -229,7 +229,7 @@ const MyBookings = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {bookings.map((b) => (
                   <div key={b._id} className="card bg-base-100 shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-                    <figure><img src={b.image} alt={b.roomName} className="h-56 w-full object-cover" /></figure>
+                    <figure><img src={b.image} alt={b.roomName} loading="lazy" className="h-56 w-full object-cover" /></figure>
                     <div className="card-body p-5">
                       <h3 className="card-title text-xl font-semibold text-base-content">{b.roomName}</h3>
                       <p className="text-base-content/70">Booking Date: <span className="font-medium text-base-content">{format(new Date(b.date), "PPP")}</span></p>
@@ -268,7 +268,7 @@ const MyBookings = () => {
                           <div className="flex items-center gap-4">
                             <div className="avatar">
                               <div className="mask mask-squircle w-16 h-16">
-                                <img src={b.image} alt={b.roomName} />
+                                <img src={b.image} alt={b.roomName} loading="lazy" />
                               </div>
                             </div>
                             <div>

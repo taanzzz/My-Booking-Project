@@ -159,7 +159,7 @@ const RoomDetailsPage = () => {
                         transition={{ duration: 0.6 }}
                         className="w-full h-64 md:h-96 rounded-2xl overflow-hidden shadow-2xl mb-8 md:mb-12"
                     >
-                        <img src={room.image} alt={room.name} className="w-full h-full object-cover" />
+                        <img src={room.image} alt={room.name} loading="lazy" className="w-full h-full object-cover" />
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">

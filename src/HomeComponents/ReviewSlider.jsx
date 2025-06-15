@@ -145,7 +145,7 @@ const ReviewSlider = () => {
                                                     <div className={`w-14 rounded-full ring ring-offset-base-100 ring-offset-2 transition-colors duration-300 ${
                                                         index === currentSlide ? 'ring-primary' : 'ring-transparent'
                                                     }`}>
-                                                        <img src={r.userPhoto || `https://ui-avatars.com/api/?name=${r.username}&background=random`} alt={r.username} />
+                                                        <img src={r.userPhoto || `https://ui-avatars.com/api/?name=${r.username}&background=random`} alt={r.username} loading="lazy" />
                                                     </div>
                                                 </div>
                                                 <div>

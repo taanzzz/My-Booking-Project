@@ -138,7 +138,7 @@ const FeaturedDestinations = () => {
                                     <div onClick={() => handleLocationChange(dest.coordinates)} className="h-full mb-5 cursor-pointer">
                                         <div className={`card bg-base-100 shadow-xl border-2 transition-colors duration-300 h-full ${activeLocation[0] === dest.coordinates[0] && activeLocation[1] === dest.coordinates[1] ? 'border-primary' : 'border-transparent'}`}>
                                             <figure className="h-40">
-                                                <img src={dest.imageUrl} alt={dest.city} className="w-full h-full object-cover" />
+                                                <img src={dest.imageUrl} alt={dest.city} loading="lazy" className="w-full h-full object-cover" />
                                             </figure>
                                             <div className="card-body p-5">
                                                 <h3 className="card-title text-xl">{dest.city}</h3>

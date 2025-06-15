@@ -134,7 +134,7 @@ const LoginForm = () => {
                         </button>
                     </form>
                     
-                    {/* --- Google সাইন-ইন এর জন্য নতুন অংশ --- */}
+                   
                     <div className="divider text-gray-500 text-sm">Or</div>
 
                     <button

@@ -157,6 +157,7 @@ const AboutUs = () => {
                   className="w-full h-96 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                   src={member.imageUrl}
                   alt={member.name}
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white transition-all duration-300">

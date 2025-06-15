@@ -38,7 +38,7 @@ const Footer = () => {
                     
                     <div className="lg:col-span-4">
                         <div className="flex items-center mb-4">
-                            <img src={Logo} alt="Logo" className="w-12 h-12 rounded-full shadow-md mr-3" />
+                            <img src={Logo} alt="Logo" loading="lazy" className="w-12 h-12 rounded-full shadow-md mr-3" />
                             <span className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                                 Echo<span className="text-blue-600 dark:text-blue-400">Nest</span>
                             </span>

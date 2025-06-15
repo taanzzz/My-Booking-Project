@@ -96,7 +96,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 px-4">
          
           <NavLink to="/" className="flex items-center gap-3 flex-shrink-0">
-            <img src={Image} alt="Logo" className="w-10 h-10 rounded-full shadow-md" />
+            <img src={Image} alt="Logo" loading="lazy" className="w-10 h-10 rounded-full shadow-md" />
             <span className="text-xl font-extrabold tracking-tight select-none hidden sm:inline">
               <span className="text-gray-900 dark:text-white">Echo</span>
               <span className="text-blue-600 dark:text-blue-400">Nest</span>

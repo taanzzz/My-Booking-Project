@@ -56,6 +56,7 @@ const WhyChooseUs = () => {
             <img 
               src="https://i.ibb.co/B8P5SMG/20250610-031938.jpg" 
               alt="Luxurious hotel lobby"
+              loading="lazy"
               className="w-full h-full "
             />
           </motion.div>

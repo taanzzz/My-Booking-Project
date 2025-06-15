@@ -156,6 +156,7 @@ const RoomsPage = () => {
                         <img
                           src={room.image}
                           alt={room.name}
+                          loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                         />
                       </div>
@@ -203,7 +204,7 @@ const RoomsPage = () => {
                         <tr key={room._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                           <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                             <div className="flex items-center gap-4">
-                               <img src={room.image} alt={room.name} className="w-20 h-14 object-cover rounded-md hidden sm:block" />
+                               <img src={room.image} alt={room.name} loading="lazy" className="w-20 h-14 object-cover rounded-md hidden sm:block" />
                                <div className="flex flex-col">
                                     <span>{room.name}</span>
                                     <span className="md:hidden text-xs text-gray-500">{room.location}</span>

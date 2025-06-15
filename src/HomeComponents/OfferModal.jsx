@@ -228,11 +228,11 @@ const OfferModal = () => {
                                             </div>
                                             <div className="card-actions justify-end">
                                                 <Link
-  to="/rooms"
-  className="btn btn-primary btn-sm btn-outline border-white text-white hover:bg-white hover:text-primary inline-flex items-center gap-1"
->
-  View Offer <FaArrowRight />
-</Link>
+                                              to="/rooms"
+                                                   className="btn btn-primary btn-sm btn-outline border-white text-white hover:bg-white hover:text-primary inline-flex items-center gap-1"
+                                               >
+                                              View Offer <FaArrowRight />
+                                               </Link>
                                             </div>
                                         </div>
                                     </motion.div>
