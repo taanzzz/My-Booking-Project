@@ -6,7 +6,7 @@
     "bgColor": "#375D8C99",
     "rating": 4.9,
     "location": "New York, USA",
-    "image": "https://i.ibb.co/bgfYRSyC/20250608-051904.jpg"
+    "image": "https://i.ibb.co/zTFrQyhN/20250608-051904-1.jpg"
   },
   {
     "id": 2,
@@ -24,7 +24,7 @@
     "bgColor": "#2a0f35",
     "rating": 4.8,
     "location": "Tokyo, Japan",
-    "image": "https://i.ibb.co/CKm6JbCw/20250608-052423.jpg"
+    "image": "https://i.ibb.co/v4q9HrCV/20250608-052423-1.jpg"
   },
   {
     "id": 4,
@@ -42,7 +42,7 @@
     "bgColor": "#1e2a21",
     "rating": 4.9,
     "location": "Ubud, Bali",
-    "image": "https://i.ibb.co/vxVv4bM4/20250608-051314.jpg"
+    "image": "https://i.ibb.co/qMXRgFGn/20250608-051314-2.jpg"
   },
   {
     "id": 6,
@@ -78,7 +78,7 @@
     "bgColor": "#014048",
     "rating": 4.6,
     "location": "Seoul,South Korea",
-    "image": "https://i.ibb.co/8LpNgbYm/20250608-051548.jpg"
+    "image": "https://i.ibb.co/7NZGsBGr/20250608-051548-1.jpg"
   },
   {
     "id": 10,
@@ -87,7 +87,7 @@
     "bgColor": "#E1DCD2",
     "rating": 4.9,
     "location": "Vienna, Austria",
-    "image": "https://i.ibb.co/Y70Y4LrS/20250608-051519.jpg"
+    "image": "https://i.ibb.co/TBX29Crn/20250608-051519-1.jpg"
   },
   {
     "id": 11,
@@ -96,7 +96,7 @@
     "bgColor": "#1E4162",
     "rating": 4.8,
     "location": "Queenstown, New Zealand",
-    "image": "https://i.ibb.co/N6BKjn0r/20250608-051429.jpg"
+    "image": "https://i.ibb.co/vgx9z3m/20250608-051429-2.jpg"
   },
   {
     "id": 12,
@@ -105,7 +105,7 @@
     "bgColor": "#FFB62780",
     "rating": 5.0,
     "location": "Paris, France",
-    "image": "https://i.ibb.co/DDVK4CcB/20250608-052757.jpg"
+    "image": "https://i.ibb.co/svGRnwTs/20250608-052757-1.jpg"
   },
   {
     "id": 13,
@@ -123,7 +123,7 @@
     "bgColor": "#253752",
     "rating": 4.8,
     "location": "Bangkok, Thailand",
-    "image": "https://i.ibb.co/v6mxgxkj/20250608-051158.jpg"
+    "image": "https://i.ibb.co/JW4k9H4k/20250608-051158-1.jpg"
   },
   {
     "id": 15,
@@ -132,6 +132,6 @@
     "bgColor": "#4C3A69B3",
     "rating": 4.9,
     "location": "Madrid, Spain",
-    "image": "https://i.ibb.co/99v6V1Z8/20250608-051014.jpg"
+    "image": "https://i.ibb.co/hFRgDyW8/20250608-051014-1.jpg"
   }
 ]

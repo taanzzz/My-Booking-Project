@@ -54,7 +54,7 @@ const WhyChooseUs = () => {
             viewport={{ once: true }}
           >
             <img 
-              src="https://i.ibb.co/B8P5SMG/20250610-031938.jpg" 
+              src="https://i.ibb.co/FbGZghhN/20250610-031938-1.jpg" 
               alt="Luxurious hotel lobby"
               loading="lazy"
               className="w-full h-full "
