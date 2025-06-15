@@ -1,6 +1,8 @@
 import React, { lazy, Suspense } from 'react'; 
 import HotelSlider from '../HomeComponents/HotelSlider';
 import OfferModal from '../HomeComponents/OfferModal';
+import MissionStatement from '../HomeComponents/MissionStatement';
+
 
 const ReviewSlider = lazy(() => import('../HomeComponents/ReviewSlider'));
 const FeaturedRooms = lazy(() => import('../HomeComponents/FeaturedRooms'));
@@ -23,6 +25,7 @@ const Home = () => {
       
       <OfferModal />
       <HotelSlider />
+      
 
       <Suspense fallback={<SectionLoader />}>
         <ReviewSlider />
@@ -31,6 +34,7 @@ const Home = () => {
         <StatsCounter />
         <GalleryPage />
         <FeaturedDestinations />
+        <MissionStatement />
       </Suspense>
     </div>
   )
