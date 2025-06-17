@@ -2,17 +2,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet"; 
-import { Link } from "react-router";
+import L from "leaflet";
+import { Link } from "react-router"; // পরিবর্তিত কোড: 'react-router-dom' ব্যবহার করা হয়েছে
 
-
+// Leaflet icon path fix
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
-
 
 const locationCoords = {
   "New York, USA": [40.7128, -74.006],
@@ -65,11 +64,10 @@ const HotelSlider = () => {
     const interval = setInterval(nextSlide, 7000);
     return () => clearInterval(interval);
   }, [nextSlide]);
-  
-  
+
   const handleDragEnd = (event, { offset, velocity }) => {
-    const swipeThreshold = 50; 
-    const swipeVelocityThreshold = 500; 
+    const swipeThreshold = 50;
+    const swipeVelocityThreshold = 500;
 
     if (offset.x < -swipeThreshold || velocity.x < -swipeVelocityThreshold) {
       nextSlide();
@@ -77,7 +75,6 @@ const HotelSlider = () => {
       prevSlide();
     }
   };
-
 
   const currentHotel = hotels[index];
   const coords = currentHotel ? locationCoords[currentHotel.location] : null;
@@ -87,7 +84,6 @@ const HotelSlider = () => {
       className="relative w-full min-h-screen px-4 py-10 text-white transition-colors duration-1000 ease-in-out flex flex-col md:flex-row items-center justify-center md:justify-between gap-10 overflow-hidden"
       style={{ backgroundColor: currentHotel?.bgColor || "#1f2937" }}
     >
-      
       <div className="md:w-1/2 w-full relative min-h-[450px] flex items-center z-10">
         <AnimatePresence mode="wait">
           {currentHotel && (
@@ -98,10 +94,11 @@ const HotelSlider = () => {
               animate="animate"
               exit="exit"
               className="absolute w-full p-4 sm:p-6 md:p-8 rounded-lg"
-              style={{
-                backdropFilter: "blur(10px)",
-                backgroundColor: "rgba(0, 0, 0, 0.2)",
-              }}
+              // পরিবর্তিত কোড: নিচের style অ্যাট্রিবিউটটি সরানো হয়েছে যাতে ব্যাকগ্রাউন্ড না থাকে
+              // style={{
+              //   backdropFilter: "blur(10px)",
+              //   backgroundColor: "rgba(0, 0, 0, 0.2)",
+              // }}
             >
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 font-serif">
                 {currentHotel.title}
@@ -137,13 +134,14 @@ const HotelSlider = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0, transition: { delay: 0.8 } }}
                 >
+                  {/* Map Fix: Added a key to force re-render on hotel change */}
                   <MapContainer
+                    key={currentHotel.location}
                     center={coords}
                     zoom={12}
                     scrollWheelZoom={false}
                     className="h-48 w-full"
                   >
-                    
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -159,60 +157,79 @@ const HotelSlider = () => {
         </AnimatePresence>
       </div>
 
-      
-      <motion.div
-        className="md:w-1/2 w-full h-[50vh] md:h-[70vh] relative flex flex-col items-center justify-center cursor-grab"
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.1}
-        onDragEnd={handleDragEnd}
-        whileTap={{ cursor: "grabbing" }}
-      >
-        <div className="relative w-[70%] sm:w-[60%] md:w-[80%] h-full flex flex-col items-center justify-center">
-          <AnimatePresence>
-            {hotels.map((hotel, i) => {
-              const position = i - index;
-              const isCurrent = position === 0;
-              const isNext = position === 1 || position === -(hotels.length - 1);
-              const isPrev = position === -1 || position === hotels.length - 1;
-              
-              let scale = 0.8;
-              let opacity = 0;
-              let translateY = 0;
-              let zIndex = 0;
-
-              if (isCurrent) {
-                scale = 1;
-                opacity = 1;
-                translateY = 0;
-                zIndex = 3;
-              } else if (isNext) {
-                scale = 0.9;
-                opacity = 0.5;
-                translateY = 100;
-                zIndex = 2;
-              } else if (isPrev) {
-                scale = 0.9;
-                opacity = 0.5;
-                translateY = -100;
-                zIndex = 2;
-              }
-
-              return (
-                <motion.img
-                  key={hotel.title + i}
-                  src={hotel.image}
-                  alt={hotel.title}
-                  loading="lazy"
-                  className="absolute w-full h-[75%] object-cover rounded-2xl shadow-2xl pointer-events-none"
-                  animate={{ scale, opacity, y: translateY, zIndex }}
-                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                />
-              );
-            })}
-          </AnimatePresence>
+      <div className="md:w-1/2 w-full h-[50vh] md:h-[70vh] relative flex flex-col items-center justify-center">
+        {/* Slider Action Buttons */}
+        <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2 sm:px-4 z-20">
+            <button 
+              onClick={prevSlide}
+              className="bg-white/30 hover:bg-white/50 text-black rounded-full w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-colors"
+              aria-label="Previous Slide"
+            >
+              &#10094;
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="bg-white/30 hover:bg-white/50 text-black rounded-full w-10 h-10 flex items-center justify-center backdrop-blur-sm transition-colors"
+              aria-label="Next Slide"
+            >
+              &#10095;
+            </button>
         </div>
-      </motion.div>
+
+        <motion.div
+          className="w-full h-full relative flex items-center justify-center cursor-grab"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.1}
+          onDragEnd={handleDragEnd}
+          whileTap={{ cursor: "grabbing" }}
+        >
+          <div className="relative w-[70%] sm:w-[60%] md:w-[80%] h-full flex flex-col items-center justify-center">
+            <AnimatePresence>
+              {hotels.map((hotel, i) => {
+                const position = i - index;
+                const isCurrent = position === 0;
+                const isNext = position === 1 || position === -(hotels.length - 1);
+                const isPrev = position === -1 || position === hotels.length - 1;
+                
+                let scale = 0.8;
+                let opacity = 0;
+                let translateY = 0;
+                let zIndex = 0;
+
+                if (isCurrent) {
+                  scale = 1;
+                  opacity = 1;
+                  translateY = 0;
+                  zIndex = 3;
+                } else if (isNext) {
+                  scale = 0.9;
+                  opacity = 0.5;
+                  translateY = 100;
+                  zIndex = 2;
+                } else if (isPrev) {
+                  scale = 0.9;
+                  opacity = 0.5;
+                  translateY = -100;
+                  zIndex = 2;
+                }
+
+                return (
+                  <motion.img
+                    key={hotel.title + i}
+                    src={hotel.image}
+                    alt={hotel.title}
+                    loading="lazy"
+                    className="absolute w-full h-[75%] object-cover rounded-2xl shadow-2xl pointer-events-none"
+                    animate={{ scale, opacity, y: translateY, zIndex }}
+                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                  />
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };

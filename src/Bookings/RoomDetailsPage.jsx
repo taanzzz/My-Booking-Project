@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axiosSecure from "../Axios/Axios";
 import { AuthContext } from "../Components/AuthContext/AuthContext";
 import { MdOutlineBedroomParent } from "react-icons/md";
-import { IoLocationSharp } from "react-icons/io5";
+import { IoCheckmarkCircle, IoLocationSharp } from "react-icons/io5";
 import { FaUserFriends, FaStar, FaStarHalfAlt, FaRegStar, FaTimes, FaInfoCircle } from "react-icons/fa"; 
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useParams } from "react-router";
@@ -165,24 +165,48 @@ const RoomDetailsPage = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
                         <div className="lg:col-span-3 space-y-10">
                             <div className="card bg-base-100 shadow-xl rounded-2xl">
-                                <div className="card-body">
-                                    <h1 className="card-title text-3xl lg:text-4xl font-extrabold text-base-content flex items-center gap-3">
-                                        <MdOutlineBedroomParent className="text-primary" /> {room.name}
-                                    </h1>
-                                    <div className="flex flex-wrap gap-2 mt-4">
-                                        <div className="badge badge-lg badge-outline gap-2"><IoLocationSharp /> {room.location}</div>
-                                        <div className="badge badge-lg badge-outline gap-2"><FaUserFriends /> Max: {room.maxGuests} Guests</div>
-                                        
-                                        <div className="badge badge-lg badge-outline gap-2"><StarRating rating={room.rating} /> ({reviews.length} Reviews)</div>
-                                    </div>
-                                    <p className="mt-4 text-base-content/80 leading-relaxed">{room.description}</p>
-                                    <div className="mt-6">
-                                        <h3 className="text-lg font-semibold text-base-content mb-2">Room Features:</h3>
-                                        <ul className="list-disc list-inside text-base-content/80 space-y-1 marker:text-primary">
-                                            {room.features?.map((feature, index) => <li key={index}>{feature}</li>)}
-                                        </ul>
-                                    </div>
-                                </div>
+                                <div className="card-body p-6 md:p-8">
+    
+    <h1 className="card-title text-3xl lg:text-4xl font-extrabold text-base-content flex items-center gap-3">
+        <MdOutlineBedroomParent className="text-blue-500" size={40} />
+        {room.name}
+    </h1>
+
+    
+    <div className="flex flex-wrap gap-3 mt-4">
+        <div className="badge badge-lg badge-outline gap-2 p-4 font-semibold transition-all hover:bg-primary hover:text-primary-content">
+            <IoLocationSharp size={16} /> {room.location}
+        </div>
+        <div className="badge badge-lg badge-outline gap-2 p-4 font-semibold transition-all hover:bg-primary hover:text-primary-content">
+            <FaUserFriends size={16} /> Max: {room.maxGuests} Guests
+        </div>
+        <div className="badge badge-lg badge-outline gap-2 p-4 font-semibold transition-all hover:bg-primary hover:text-primary-content">
+           
+            <StarRating rating={room.rating} /> ({reviews.length} Reviews)
+        </div>
+    </div>
+
+   
+    <p className="mt-6 text-base-content/80 leading-relaxed text-base">
+        {room.description}
+    </p>
+
+   
+    <div className="divider my-6"></div>
+
+    
+    <div className="mt-2">
+        <h3 className="text-xl font-bold text-base-content mb-4">Room Features:</h3>
+        <ul className="space-y-3">
+            {room.features?.map((feature, index) => (
+                <li key={index} className="flex items-center gap-3 text-base-content/90">
+                    <IoCheckmarkCircle className="text-success text-xl flex-shrink-0" />
+                    <span>{feature}</span>
+                </li>
+            ))}
+        </ul>
+    </div>
+</div>
                             </div>
 
                             <div className="card bg-base-100 shadow-xl rounded-2xl">
@@ -285,7 +309,7 @@ const RoomDetailsPage = () => {
 
                                 <div className="mt-4 flex items-center gap-2 p-3 bg-blue-500/10 rounded-lg">
                                     <FaInfoCircle className="text-blue-500 text-lg flex-shrink-0" />
-                                    <p className="text-xs text-blue-700 dark:text-blue-300">Grayed out dates are already booked.</p>
+                                    <p className="text-xs text-blue-700 dark:text-blue-300">Grayed-out dates are either already booked or in the past.</p>
                                 </div>
                             </div>
                             

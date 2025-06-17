@@ -23,3 +23,18 @@
 body {
   font-family: 'Montserrat', sans-serif;
 }
+
+@keyframes fade-out-and-shrink {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+}
+
+.animate-jori {
+  animation: fade-out-and-shrink 1s forwards;
+}

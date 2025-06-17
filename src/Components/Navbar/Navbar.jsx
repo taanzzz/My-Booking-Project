@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AuthContext } from "./../AuthContext/AuthContext";
 import ToggleTheme from "./../ToggleTheme/ToggleTheme";
 import MyProfile from "./../User/MyProfile"; 
-import Image from "../../assets/log3.jpg";
+import Image from "../../assets/echo.jpg";
 import {AiFillHome,AiOutlineClose,AiOutlineMenu} from "react-icons/ai";
 import { FaBed, FaChevronDown, FaUserPlus } from "react-icons/fa";
 import { MdOutlineBookmarkAdded } from "react-icons/md";
@@ -95,9 +95,9 @@ const Navbar = () => {
       <div className=" px-1  md:px-2 lg:px-3  bg-white/70 dark:bg-gray-800/60 backdrop-blur-lg border border-gray-200/80 dark:border-gray-700/60  shadow-lg transition-all duration-300">
         <div className="flex items-center justify-between h-16 px-4">
          
-          <NavLink to="/" className="flex items-center gap-3 flex-shrink-0">
-            <img src={Image} alt="Logo" loading="lazy" className="w-10 h-10 rounded-full shadow-md" />
-            <span className="text-xl font-extrabold tracking-tight select-none hidden sm:inline">
+          <NavLink to="/" className="flex items-center gap-2 flex-shrink-0">
+            <img src={Image} alt="Logo" loading="lazy" className="w-11 h-11 rounded-full shadow-md" />
+            <span className="text-2xl font-extrabold tracking-tight select-none hidden sm:inline">
               <span className="text-gray-900 dark:text-white">Echo</span>
               <span className="text-blue-600 dark:text-blue-400">Nest</span>
             </span>
