@@ -2,7 +2,7 @@
 
 *EchoNest* is a fully responsive and modern hotel booking platform designed to provide users with a seamless and engaging experience for discovering,booking and sharing their accommodation experiences.This project focuses on delivering an attractive user interface,robust functionality and secure authentication.
 
-![EchoNest Homepage](https://i.ibb.co/JjQ2mGWb/Screenshot-2025-06-15-033110.png)
+![EchoNest Homepage](https://i.ibb.co/cKShFKfG/Screenshot-2025-06-17-225939.png)
 
 
 ---
