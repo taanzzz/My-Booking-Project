@@ -9,8 +9,8 @@
 ## 🔗 Live Links
 
 - 🌍 **Live Website:** [https://my-assignment-project-2a864.web.app/](https://my-assignment-project-2a864.web.app/)
-- 💻 **Client Repository:** [https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-taanzzz](https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-taanzzz)
-- 🔧 **Server Repository:** [https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-taanzzz](https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-taanzzz)
+- 💻 **Client Repository:** [https://github.com/taanzzz/My-Booking-Project](https://github.com/taanzzz/My-Booking-Project)
+- 🔧 **Server Repository:** [https://github.com/taanzzz/hotelDB-server](https://github.com/taanzzz/hotelDB-server)
 
 ---
 
