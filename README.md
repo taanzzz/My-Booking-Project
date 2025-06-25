@@ -1,6 +1,6 @@
-# EchoNest - A Modern Hotel Booking Platform
+# 🌐 EchoNest - A Modern Hotel Booking Platform
 
-*EchoNest* is a fully responsive and modern hotel booking platform designed to provide users with a seamless and engaging experience for discovering, booking and sharing their accommodation experiences. This project focuses on delivering an attractive user interface, robust functionality and secure authentication.
+> *EchoNest* is a fully responsive and modern hotel booking platform designed to provide users with a seamless and engaging experience for discovering, booking, and sharing their accommodation experiences. This project delivers an attractive user interface, robust functionalities, and secure authentication.
 
 ![EchoNest Homepage](https://i.ibb.co/cKShFKfG/Screenshot-2025-06-17-225939.png)
 
@@ -8,232 +8,247 @@
 
 ## 🔗 Live Links
 
--   **Live Website:** *[https://my-assignment-project-2a864.web.app/](https://my-assignment-project-2a864.web.app/)*
--   **Client-Side Repository:** *[https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-taanzzz]*
--   **Server-Side Repository:** *[https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-taanzzz]*
+- 🌍 **Live Website:** [https://my-assignment-project-2a864.web.app/](https://my-assignment-project-2a864.web.app/)
+- 💻 **Client Repository:** [https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-taanzzz](https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-taanzzz)
+- 🔧 **Server Repository:** [https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-taanzzz](https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-taanzzz)
 
 ---
 
 ## ✨ Key Features
 
-The main features of this platform are listed below:
+### 🏡 Homepage & General
 
-### 🏡 *Homepage & General Features*
+- 🔁 **Dynamic Slider Banner** with engaging text and CTA
+- 🌟 **Featured Rooms** (Top 6) with images and quick access to details
+- 🗺️ **Hotel Location Map** with `react-leaflet` for real-time location view
+- 💬 **User Reviews Carousel** on homepage
+- 🎁 **Special Offers Modal** with random promotional deals
+- 📱 **Fully Responsive** across all devices
+- ➕ **Extra Custom Sections** for enhanced user engagement
 
--   **Slider Banner:** A dynamic slider featuring an engaging title, a short description and a button that redirects to the "Rooms" page.
--   **Featured Rooms:** A showcase of the top 6 rooms with images, descriptions and a "Details" button.
--   **Hotel Location Map:** An interactive map powered by `react-leaflet` to display the hotel's precise location.
--   **User Reviews:** A testimonial carousel on the homepage displaying the latest user reviews to build trust.
--   **Special Offers:** An eye-catching pop-up modal on the homepage to showcase special offers and promotions to users.
--   **Extra Sections:** Two additional relevant and attractive sections have been added to enhance user engagement.
--   **Fully Responsive:** A seamless experience across mobile, tablet, and desktop devices.
+### 🖼️ Visual Gallery
 
-### 🖼️ *Visual Gallery*
+- 🖼️ **Image Gallery Page** for exploring hotel visuals
+- 🗂️ **Category Filtering**: Hotel, Rooms, Events
+- 🧭 **Carousel View** powered by `Swiper.js`
+- 🔍 **Fullscreen Lightbox** with navigation controls
+- 💫 **Smooth Transitions** via `framer-motion`
 
--   **Interactive Image Gallery:** A dedicated page to visually explore the hotel, rooms and special events in a stunning and engaging layout.
--   **Category Filtering:** Users can easily filter images by categories like 'Hotel', 'Rooms' and 'Events' to find what they're looking for.
--   **Carousel Display:** Images are presented in a sleek, responsive carousel for each category, powered by `Swiper.js`, for a modern Browse experience.
--   **Fullscreen Lightbox:** Clicking on any image opens it in a beautiful, full-screen lightbox for a detailed, immersive view.
--   **Easy Navigation:** The lightbox includes next/previous controls for seamless Browse through the entire collection of images.
--   **Smooth Animations:** The gallery is enhanced with `framer-motion` for fluid transitions and a polished, professional feel.
+### 🔐 Authentication
 
-### 🔐 *User Authentication*
+- 🔒 **Email/Password Auth** via Firebase
+- 🔐 **JWT Integration** for secure private route access
+- 🔑 **Google Social Login**
+- ✅ **Password Validation Rules**
+- 🎉 **Success Toast Notifications** using `react-toastify`
 
--   **Secure Login & Registration:** Email and password-based authentication system.
--   **Social Login:** Quick login functionality using Google.
--   **JWT Integration:** Upon login a JWT token is generated and stored on the client side. Private routes are protected using this token.
--   **Password Validation:** During registration, password strength is verified (must be at least 6 characters long, including one uppercase and one lowercase letter).
--   **Success Notifications:** User-friendly toast notifications from `react-toastify` are shown after successful login or registration.
+### 🛌 Room & Booking Management
 
-### 🛌 *Room & Booking Management*
+- 🛏️ **Room Listings Page** with card/table views
+- 💸 **Server-Side Price Filter**
+- 🧾 **Room Details Page** with images, description, reviews
+- 🗓️ **Booking Modal** with room summary & date picker
+- 🚫 **Prevent Overbooking** by checking existing reservations
+- 📋 **My Bookings Page** (private route)
+- ❌ **Cancel Booking** (at least 1 day prior)
+- 🔁 **Date Update** for existing bookings
+- ✅ **Booking Confirmation Page** with summary, print option & robust error handling
 
--   **Rooms Page:** Displays all available rooms from the database in a card & table format.
--   **Price Range Filter:** A filter system at the top of the Rooms page to sort rooms by price (implemented on the server side).
--   **Room Details Page:** Shows comprehensive information for a single room, including all details, images and user reviews.
--   **Booking Modal:** A modal pops up on clicking "Book Now," showing a summary of the room, price and a date picker for booking.
--   **Availability Check:** Once a room is booked for a specific date, it becomes unavailable for others on that date.
--   **My Bookings Page:** A private route where logged-in users can view a list of all their booked rooms.
--   **Booking Cancellation:** Users can cancel their booking at least 1 day before the check-in date. Upon cancellation the room becomes available again.
--   **Date Update:** Users have the option to update the date for an existing booking.
--   **Booking Confirmation Page:** After successfully booking a room, the user is redirected to a dedicated confirmation page. It displays the booking ID a summary of stay details (room name, date, price) and provides options to print the confirmation or navigate to their "My Bookings" page. It includes loading and error states for a robust user experience.
+### 📝 Review System
 
-### 📝 *Review System*
+- ✍️ **Authenticated Users Can Post Reviews**
+- ⭐ **Rating + Comments** format with timestamps
+- 📃 **Review Display** on Room Details Page
 
--   **Post Reviews:** Users can post a review only for rooms they have booked.
--   **Review Structure:** Reviews include the user's name (read-only), a rating from 1-5, a comment and a timestamp.
--   **Review Display:** All reviews for a specific room are displayed on its details page.
+### 🚀 Other Features
 
-### 🚀 *Other Features*
-
--   **404 Page:** A custom-designed 404 page with an engaging Lottie animation and a "Back to Home" button.
--   **Smooth Animations:** The entire website is enriched with smooth and appealing animations using `framer-motion`.
+- 🧭 **Custom 404 Page** with Lottie animation
+- 🌈 **Global Animations** using `framer-motion` for UX polish
 
 ---
 
-## 🚀 Backend Server API Endpoints
+## 💻 Instructions to Run the Project Locally
 
-This section details the API endpoints provided by the EchoNest backend server.
+### Prerequisites
 
-### Authentication Endpoints
+- ✅ Node.js (v16+)
+- ✅ MongoDB (local or MongoDB Atlas)
+- ✅ npm
 
-* **`POST /jwt`**
-    * **Description:** Generates a JWT token for a user upon successful authentication.
-    * **Request Body:**
-        ```json
-        {
-            "email": "user@example.com"
-        }
-        ```
-    * **Response:**
-        ```json
-        {
-            "token": "your_jwt_token_here"
-        }
-        ```
+### Step 1: Clone the Repositories
 
-### Rooms Endpoints
+```bash
+# Clone the Client Repository
+git clone https://github.com/taanzzz/My-Booking-Project
 
-* **`GET /rooms`**
-    * **Description:** Retrieves a list of all available rooms. Supports optional price range filtering.
-    * **Query Parameters:**
-        * `minPrice` (optional): Minimum price for filtering.
-        * `maxPrice` (optional): Maximum price for filtering.
-    * **Example:** `/rooms?minPrice=50&maxPrice=150`
-    * **Authentication:** None required.
+# Clone the Server Repository
+git clone https://github.com/taanzzz/hotelDB-server
+```
 
-* **`GET /rooms/featured/top-rated`**
-    * **Description:** Retrieves the top 6 rooms globally, sorted by rating in descending order.
-    * **Authentication:** None required.
+### Step 2: Setup Server
 
-* **`GET /rooms/:id`**
-    * **Description:** Retrieves comprehensive details for a single room by its unique ID.
-    * **Path Parameter:** `id` (MongoDB ObjectId of the room)
-    * **Authentication:** None required.
+```bash
+cd hotelDB-server
+npm install
+```
 
-### Bookings Endpoints
+### Step 3: Setup Client
 
-* **`POST /bookings`**
-    * **Description:** Creates a new room booking. Includes checks to prevent duplicate bookings by the same user on the same date and ensures a room isn't double-booked by different users on the same date.
-    * **Authentication:** Required (JWT `verifyToken` middleware).
-    * **Request Body:**
-        ```json
-        {
-            "roomId": "room_id_here",
-            "email": "user@example.com",
-            "date": "YYYY-MM-DD"
-        }
-        ```
-
-* **`GET /bookings`**
-    * **Description:** Retrieves all bookings made by the authenticated user, filtered by their email.
-    * **Query Parameter:** `email` (User's email)
-    * **Authentication:** Required (JWT `verifyToken` middleware and email authorization).
-
-* **`GET /booking/:id`**
-    * **Description:** Retrieves detailed information for a single booking by its ID.
-    * **Path Parameter:** `id` (MongoDB ObjectId of the booking)
-    * **Authentication:** Required (JWT `verifyToken` middleware and email authorization).
-
-* **`GET /bookings/room/:roomId/dates`**
-    * **Description:** Fetches all dates for which a specific room has already been booked.
-    * **Path Parameter:** `roomId` (Room ID)
-    * **Authentication:** None required.
-
-* **`GET /bookings/check`**
-    * **Description:** Checks if the authenticated user has an existing booking for a specific room.
-    * **Query Parameters:** `roomId`, `email`
-    * **Authentication:** Required (JWT `verifyToken` middleware and email authorization).
-
-* **`GET /bookings/room/:roomId/date/:date`**
-    * **Description:** Retrieves bookings for a specific room on a precise date.
-    * **Path Parameters:** `roomId`, `date` (YYYY-MM-DD)
-    * **Authentication:** None required.
-
-* **`GET /bookings/user/:email`**
-    * **Description:** Retrieves all bookings associated with a particular user's email.
-    * **Path Parameter:** `email` (User's email)
-    * **Authentication:** Required (JWT `verifyToken` middleware and email authorization).
-
-* **`DELETE /bookings/:id`**
-    * **Description:** Cancels an existing booking by its ID. Only the user who made the booking is authorized to cancel it.
-    * **Path Parameter:** `id` (MongoDB ObjectId of the booking)
-    * **Authentication:** Required (JWT `verifyToken` middleware and email authorization).
-
-* **`PATCH /bookings/:id`**
-    * **Description:** Updates the date of an existing booking. This operation includes a check for room availability on the newly requested date.
-    * **Path Parameter:** `id` (MongoDB ObjectId of the booking)
-    * **Authentication:** Required (JWT `verifyToken` middleware).
-    * **Request Body:**
-        ```json
-        {
-            "roomId": "room_id_of_the_booking",
-            "date": "YYYY-MM-DD"
-        }
-        ```
-
-### Reviews Endpoints
-
-* **`POST /reviews`**
-    * **Description:** Allows an authenticated user to submit a new review for a room.
-    * **Authentication:** Required (JWT `verifyToken` middleware).
-    * **Request Body:**
-        ```json
-        {
-            "roomId": "room_id_here",
-            "username": "Reviewer Name",
-            "userEmail": "reviewer@example.com",
-            "userPhoto": "url_to_photo",
-            "rating": 5,
-            "comment": "Great room and service!"
-        }
-        ```
-
-* **`GET /reviews`**
-    * **Description:** Retrieves all reviews present in the database.
-    * **Authentication:** None required.
-
-* **`GET /reviews/:roomId`**
-    * **Description:** Retrieves all reviews specifically for a given room, sorted by creation date in descending order.
-    * **Path Parameter:** `roomId` (Room ID)
-    * **Authentication:** None required.
+```bash
+cd ../My-Booking-Project
+npm install
+npm run dev
+```
 
 ---
 
-## 🛠 Tech Stack & Packages
+## 📡 Backend Server API Endpoints
 
-### Client-Side
+### 🔐 Authentication
 
--   **Framework:** React
--   **Build Tool:** Vite
--   **Styling:** Tailwind CSS, DaisyUI
--   **Routing:** React Router
--   **Animation:** Framer Motion
--   **API Calls:** Axios
--   **Authentication:** Firebase Authentication
--   **Mapping:** React-Leaflet
--   **Icons:** React Icons
--   **Slider/Carousel:** Swiper.js/slick
--   **Notifications:** React-Toastify
--   **Date Picker:** React Datepicker
+#### `POST /jwt`
+Generates JWT token for authenticated user.
 
-### Server-Side
+**Request:**
+```json
+{
+  "email": "user@example.com"
+}
+```
 
--   **Environment:** Node.js
--   **Framework:** Express.js
--   **Database:** MongoDB
--   **MongoDB Driver:** Native MongoDB Driver
--   **Authentication:** JSON Web Token (JWT)
--   **Middleware:** Cors, Dotenv
--   **Unique ID Generation:** `ObjectId` from `mongodb`
+**Response:**
+```json
+{
+  "token": "your_jwt_token_here"
+}
+```
 
 ---
 
-## ⚙️ Environment Variables (Server-Side)
+### 🏨 Rooms API
 
-To run the backend server, create a `.env` file in the root directory of your server project and populate it with the following:
+#### `GET /rooms`
+Returns all rooms. Optional filters:
+- `minPrice`
+- `maxPrice`
 
-```dotenv
+#### `GET /rooms/featured/top-rated`
+Returns top 6 rated rooms.
+
+#### `GET /rooms/:id`
+Returns details of a specific room.
+
+---
+
+### 📆 Bookings API
+
+#### `POST /bookings`
+Creates a booking. JWT required.
+
+**Request:**
+```json
+{
+  "roomId": "room_id_here",
+  "email": "user@example.com",
+  "date": "YYYY-MM-DD"
+}
+```
+
+#### `GET /bookings`
+Get all bookings for logged-in user.
+
+#### `GET /booking/:id`
+Get specific booking by ID.
+
+#### `GET /bookings/room/:roomId/dates`
+Returns all booked dates for a room.
+
+#### `GET /bookings/check?roomId=&email=`
+Checks if a user already booked a room.
+
+#### `GET /bookings/room/:roomId/date/:date`
+Returns booking for a room on a date.
+
+#### `GET /bookings/user/:email`
+Get all bookings by user email.
+
+#### `DELETE /bookings/:id`
+Cancel a booking (JWT & user match required).
+
+#### `PATCH /bookings/:id`
+Update a booking date. JWT required.
+
+**Request:**
+```json
+{
+  "roomId": "room_id_here",
+  "date": "YYYY-MM-DD"
+}
+```
+
+---
+
+### 🗣️ Reviews API
+
+#### `POST /reviews`
+Submit review for booked room (JWT required).
+
+**Request:**
+```json
+{
+  "roomId": "room_id_here",
+  "username": "Reviewer Name",
+  "userEmail": "reviewer@example.com",
+  "userPhoto": "url_to_photo",
+  "rating": 5,
+  "comment": "Great room and service!"
+}
+```
+
+#### `GET /reviews`
+Get all reviews.
+
+#### `GET /reviews/:roomId`
+Get reviews for a specific room.
+
+---
+
+## 🛠 Tech Stack
+
+### 🌐 Frontend
+
+- React + Vite
+- Tailwind CSS + DaisyUI
+- React Router
+- Framer Motion
+- Axios
+- Firebase Auth
+- React Icons
+- React-Leaflet
+- Swiper.js
+- React-Toastify
+- React Datepicker
+
+### 🔧 Backend
+
+- Node.js + Express.js
+- MongoDB (Native Driver)
+- JWT Auth
+- Dotenv, CORS
+
+---
+
+## ⚙️ Server Environment Variables
+
+Create a `.env` file in `/hotelDB-server`:
+
+```env
 PORT=3000
-MONGODB_URI=<Your MongoDB Connection String>
-JWT_SECRET=<A strong, random secret key for JWT signing>
-NODE_ENV=development # Use 'production' for deployment
+MONGODB_URI=your_mongodb_uri_here
+JWT_SECRET=your_secure_jwt_secret
+NODE_ENV=development
+```
+
+---
+
+> 🔚 That’s it! Your full-stack hotel booking platform is ready to go. Happy coding!
